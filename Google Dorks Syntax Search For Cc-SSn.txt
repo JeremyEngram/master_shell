@@ -1,0 +1,30 @@
+﻿Google Dorks Syntax Search For Cc/SSn
+                              &
+Common Regex Expressions For Cc/SSn
+
+
+https://hackingsecuritytools.blogspot.com/2015/12/how-to-find-credit-card-details-using-google-dorks.html?m=1
+
+
+     Google Dorks Search For Cc/SSn
+
+
+accinfo.php?cartId=
+acclogin.php?cartID=
+add.php?bookid=
+add_cart.php?num=
+addcart.php?
+addItem.php
+add-to-cart.php?ID=
+addToCart.php?idProduct=
+addtomylist.php?ProdId=
+adminEditProductFields.php?intProdID=
+advSearch_h.php?idCategory=
+affiliate.php?ID=
+affiliate-agreement.cfm?storeid=
+affiliates.php?id=
+ancillary.php?ID=
+archive.php?id=
+article.php?id=
+phpx?PageID
+basket.php?id=
