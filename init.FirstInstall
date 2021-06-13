@@ -83,3 +83,11 @@ while true; do
         * ) echo "Please answer yes or no.";;
     esac
 done
+
+
+#Do full system cleanup with rmtrash custom script
+sudo rmtrash 
+
+echo
+echo "FIRE TIME SYSTEM INSTALL SETUP SCRIPT COMPLETE!"
+echo
