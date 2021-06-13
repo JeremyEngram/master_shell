@@ -1,1 +1,39 @@
-sudo apt install -y synaptic ftpd samba openssh-server terminator yakuake 
+#!/bin/bash
+
+#First time install of all system wide used linux packages
+sudo apt install -y synaptic ftpd samba openssh-server terminator yakuake wkhtmltopdf
+
+#Commit all system wide used aliases to ~/.bashrc
+sudo chmod +x /usr/local/bin/aliases && sudo aliases
+
+
+sudo apt install -y synaptic yakuake apache2 python python3 python-pip python3-pip build-essential terminator bleachbit yakuake gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ettercap-text-only wireshark hydra ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
+sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot
+
+
+
+echo "[Disable suspend]
+Identity=unix-user:*
+Action=org.freedesktop.upower.suspend
+ResultActive=no
+" >> /var/lib/polkit-1/localauthority/10-vendor.d/com.ubuntu.desktop.pkla
+
+
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.desktop.session idle-delay 0
+xset s off && xset -dpms
+
+
+
+sudo add-apt-repository ppa:gezakovacs/ppa
+sudo apt-get update
+sudo apt-get install unetbootin
+
+
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt install python3.9
+
+
+sudo <<< wget https://gist.github.com/jeremy-breidenbach/92fc648ed2590ff9cd3a0ae57ed98e4a#file-asound-state -o /usr/local/bin
