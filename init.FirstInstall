@@ -1,5 +1,11 @@
 #!/bin/bash
 
+echo
+echo " FULL SYSTEM FIRST TIME INSTALL OF ALL USER PREFERNECE BASED PROGRAM PACKAGES AND CONFIGURATIONS "
+echo 
+
+sleep 2
+
 #Take ownership of widly used system folders for default user access to make changes wthout sudo
 sudo chown $USER /opt /usr/local/bin /var/www/html
 
@@ -11,6 +17,10 @@ sudo apt install -y synaptic snap snapd ftpd samba openssh-server terminator yak
 
 #Install required system wide snap packages
 sudo snap install riseup-vpn
+
+#Wget TOR onion browser from tor website uncompress and arm executable gui script for first time start
+wget https://www.torproject.org/dist/torbrowser/10.0.17/tor-browser-linux64-10.0.17_en-US.tar.xz -P /opt
+tar xf /opt/*.tar.xz && sudo rm -rf /opt/*.tar.xz
 
 #Remove and clean up default unused miscalanious packages
 sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot
@@ -29,7 +39,6 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.session idle-delay 
 xset s off && xset -dpms
-
 
 #Add unetbootin repositories update and implement unetbootin to make new default linux usb
 sudo add-apt-repository ppa:gezakovacs/ppa
