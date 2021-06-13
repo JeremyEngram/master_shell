@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for CLEAN in $(find /var/log/auth.log -type f)
+do
+    rm -rf $CLEAN
+done
+
+
+
