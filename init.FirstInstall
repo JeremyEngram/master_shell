@@ -1,39 +1,67 @@
 #!/bin/bash
 
+#Take ownership of widly used system folders for default user access to make changes wthout sudo
+sudo chown $USER /opt /usr/local/bin /var/www/html
+
+#System wide chmod to arm all github scripts in /usr/local/bin/* from initial git commit 
+sudo chmod +x /usr/local/bin/*
+
 #First time install of all system wide used linux packages
-sudo apt install -y synaptic ftpd samba openssh-server terminator yakuake wkhtmltopdf
+sudo apt install -y synaptic ftpd samba openssh-server terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
+
+#Remove and clean up default unused miscalanious packages
+sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot
 
 #Commit all system wide used aliases to ~/.bashrc
 sudo chmod +x /usr/local/bin/aliases && sudo aliases
+source ~/.bashrc
 
 
-sudo apt install -y synaptic yakuake apache2 python python3 python-pip python3-pip build-essential terminator bleachbit yakuake gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ettercap-text-only wireshark hydra ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
-sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot
-
-
-
+#Make system wide changes to never sleep again
 echo "[Disable suspend]
 Identity=unix-user:*
 Action=org.freedesktop.upower.suspend
 ResultActive=no
 " >> /var/lib/polkit-1/localauthority/10-vendor.d/com.ubuntu.desktop.pkla
-
-
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-
 gsettings set org.gnome.desktop.screensaver lock-enabled false
-gsettings set org.gnome.desktop.session idle-delay 0
+gsettings set org.gnome.desktop.session idle-delay 
 xset s off && xset -dpms
 
 
-
+#Add unetbootin repositories update and implement unetbootin to make new default linux usb
 sudo add-apt-repository ppa:gezakovacs/ppa
 sudo apt-get update
 sudo apt-get install unetbootin
 
-
+#Add python3 repository update and install python3
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt install python3.9
 
-
+#Mksound from source file asound.state to commit working audio drivers for Acer Chromebook 14
 sudo <<< wget https://gist.github.com/jeremy-breidenbach/92fc648ed2590ff9cd3a0ae57ed98e4a#file-asound-state -o /usr/local/bin
+sudo cp /usr/local/bin/asound.state /var/lib/alsa/asound.state
+sudo alsa force-reload
+alsactl init
+sudo alsactl store --file /var/lib/alsa/asound.state
+sudo alsa force-reload" >> /usr/local/bin/mksound
+
+
+
+#Manually get from github with wget
+wget https://github.com/DynamicDesignz/master_shell/youtube-dl-install -o /usr/local/bin/youtube-dl-install
+wget https://github.com/DynamicDesignz/master_shell/ytdl -o /usr/local/bin/ytdl
+
+#Manually git nmap vulscan scripts by defalt for widely used nmap seurity scanner scripts on github
+sudo git clone https://github.com/vulnersCom/nmap-vulners /usr/share/nmap/scripts
+sudo git clone https://github.com/scipag/vulscan scipag_vulscan ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan
+
+
+#Curl working version of Metasploit 
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall
+chmod 755 msfinstall
+./msfinstall
+./msfconsole
+msfdb init
+
+done
