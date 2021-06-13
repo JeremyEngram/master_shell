@@ -1,0 +1,9 @@
+#!/bin/bash
+BACKUP=/home/$USER/Desktop/MintSystemBackup
+echo "Full System Backup"
+
+sudo zip -r $BACKUP/bashrc ~/.bashrc
+
+sudo zip -r $BACKUP/opt.zip /opt
+sudo zip -r $BACKUP/bin.zip /usr/local/bin
+sudo zip -r $BACKUP/home.zip /home/$USER -x ~/Videos

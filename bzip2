@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "File.tar.bz2: " 
+read file
+tar -cjvf $file.tar.bz2 $file

@@ -1,0 +1,5 @@
+#!/bin/bash
+echo -n "File.tar.gz: "
+read file
+tar -czvf $file.tar.gz $file
+
