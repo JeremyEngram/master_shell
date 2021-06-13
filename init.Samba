@@ -1,0 +1,47 @@
+
+# The specific set of interfaces / networks to bind to
+# This can be either the interface name or an IP address/netmask;
+# interface names are normally preferred
+# 			  interfaces = 127.0.0.0/8 eth0
+
+# Only bind to the named interfaces and/or networks; you must use the
+# 'interfaces' option above to use this.
+# It is recommended that you enable this feature if your Samba machine is
+# not protected by a firewall or is a firewall itself.  However, this
+# option cannot handle dynamic or non-broadcast interfaces correctly.
+# 			   bind interfaces only = yes
+
+# Most people will want "standalone sever" or "member server".
+# Running as "active directory domain controller" will require first
+# running "samba-tool domain provision" to wipe databases and create a
+# new domain.
+#			   server role = standalone server
+
+
+echo "Samba Status: " | sudo systemctl status smbd
+echo "Samba Firewall: " | sudo ufw allow 'Samba'
+echo "Samba Backup: " | sudo cp /etc/samba/smb.conf{,.backup}
+echo "Samba Config: " | sudo -i echo "server role = standalone server" >> /etc/samba/smb.conf
+echo "Samba Testconfig: " | testparm
+echo "Samba Restart Services: " | sudo systemctl restart smbd & sudo systemctl restart nmbd
+echo "Samba Root Dir: " | sudo mkdir /samba
+echo "Samba Create Group: " | sudo chgrp sambashare /samba
+echo "Samba Create User: " | sudo useradd -M -d /samba/$USER -s /usr/sbin/nologin -G sambashare $USER
+echo "Samba Home Dir: " | sudo mkdir /samba/$USER && sudo chown $USER:sambashare /samba/$USER
+echo "Samba Write Dir: " | sudo chmod 2770 /samba/$USER
+echo "Samba User Pass: " | sudo smbpasswd -a $USER
+echo "Samba Set Account: " | sudo smbpasswd -e $USER
+echo
+echo "Samba Admin Account: " | sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin
+echo "Samba Admin Pass: " | sudo smbpasswd -a sadmin && sudo smbpasswd -e sadmin
+echo "  Samba Admin User: 'sadmin'  " 
+echo
+echo "Samba Users Share Dir: " | sudo mkdir /samba/users
+echo "Samba Dir Ownership To sadmin: " | sudo chown sadmin:sambashare /samba/users
+echo "Samba Users Dir Access: " | sudo chmod 2770 /samba/users
+echo 
+echo "Samba Add Users: " | sudo nano /etc/samba/smb.conf
+echo "Samba Restart Services: " | sudo systemctl restart smbd && sudo systemctl restart nmbd
+echo 
+echo "		Samba Directory Shares Configuration Complete!		"
+

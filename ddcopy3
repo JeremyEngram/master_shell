@@ -1,0 +1,17 @@
+#!/bin/bash
+echo "		ddcopy2 - Create Image File Backup Of Working Live Production Raspbian Platform...		"
+
+echo
+echo "Attempting to make backup of partition: onDeviceloction  /dev/mmcblk0"
+echo "/dev/mmcblk0 - device path is static and must be changed script_side in notepad!"
+echo
+echo
+echo "backup.mmcblk0.img - to prevent image corruption and human error the image filename is static and should not be changed! - Please rename after imaging is complete!"
+echo "================================================================="
+echo "						Start Run Program...					   "
+echo "================================================================="
+echo -n "Enter Root Device To Image: "
+read dev1
+echo -n "Enter Full Path To Mass Storage Device: "
+read out
+dd if=/dev/$dev1 of=$out/backup.mmcblk0.img bs=43800000 conv=noerror

@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Creating Image File Backup..."
+dd if=/dev/mmcblk0 of=/media/pi/MyBackupNet/IMGbak/backup.mmcblk0.img bs=43800000 conv=noerror

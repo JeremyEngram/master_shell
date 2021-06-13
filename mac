@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sudo dhclient -r wlp2s0
+
+sudo ifconfig wlp2s0 down
+sudo macchanger -r wlp2s0
+sudo ifconfig wlp2s0 up
+ 
+sudo iwconfig wlp2s0 essid SpectrumWiFi

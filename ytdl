@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo " YTDL - BATCH HARVEST YOUTUBE MP3 TO STUDIO QUALITY "
+while true; do 
+echo
+echo -n "Enter Youtube Playlist: "
+read http
+python3 /usr/local/bin/youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" $http;
+done
+echo "Converting To MP3 Studio Quality 320kb Lossless" | for f in *.mp3;do ffmpeg -i "${f}" -ab 320k -map_metadata 0 -id3v2_ve>
+
+

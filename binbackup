@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo zip -r /home/manboy/Desktop/binbackup.zip -i /usr/local/bin
+
