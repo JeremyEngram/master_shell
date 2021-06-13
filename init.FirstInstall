@@ -6,6 +6,9 @@ echo
 
 sleep 2
 
+#Do first time full system update and upgrade
+sudo apt update && sudo apt upgrade -y && sudo apt autoremove 
+
 #Take ownership of widly used system folders for default user access to make changes wthout sudo
 sudo chown $USER /opt /usr/local/bin /var/www/html
 
@@ -13,7 +16,7 @@ sudo chown $USER /opt /usr/local/bin /var/www/html
 sudo chmod +x /usr/local/bin/*
 
 #First time install of all system wide used linux packages including git
-sudo apt install -y synaptic snap snapd ftpd samba openssh-server terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
+sudo apt install -y synaptic snap snapd gnome-screenshot terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
 
 #Install required system wide snap packages
 sudo snap install riseup-vpn
