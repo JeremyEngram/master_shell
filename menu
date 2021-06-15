@@ -1,19 +1,25 @@
 #!/bin/bash
-# Bash Menu Script Example
-
-PS3='Please enter your choice: '
-options=("Option 1" "Option 2" "Option 3" "Quit")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "Option 1")
-            echo "you chose choice 1"
+PS3='Choose your favorite food: '
+foods=("Pizza" "Pho" "Tacos" "Quit")
+select fav in "${foods[@]}"; do
+    case $fav in
+        "Pizza")
+            echo "Americans eat roughly 100 acres of $fav each day!"
+	    # optionally call a function or run some code here
             ;;
-        "Option 2")
-            echo "you chose choice 2"
+        "Pho")
+            echo "$fav is a Vietnamese soup that is commonly mispronounced like go, instead of duh."
+	    # optionally call a function or run some code here
             ;;
-        "Option 3")
-            echo "you chose choice $REPLY which is $opt"
+        "Tacos")
+            echo "According to NationalTacoDay.com, Americans are eating 4.5 billion $fav each year."
+	    # optionally call a function or run some code here
+	    break
             ;;
-        "Quit")
-            break
+	"Quit")
+	    echo "User requested exit"
+	    exit
+	    ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
