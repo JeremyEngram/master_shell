@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo -n "Enter Zip Name ~$ "
+read name
+echo "Enter Full Path Dir ~$ "
+read path
+
+zip -r $name $path
+

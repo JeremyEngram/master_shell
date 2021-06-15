@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "FOR LOOP TAKE OWNERSHIP OF SYSTEM DIRECTORIES"
+
+
+for DIRS in /opt /usr/local/bin /var/www/html
+
+do
+
+    chmod +x $DIRS
+
+done

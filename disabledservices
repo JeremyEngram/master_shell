@@ -1,0 +1,4 @@
+#!/bin/bash
+
+systemctl list-unit-files --state=disabled
+

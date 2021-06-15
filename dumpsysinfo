@@ -1,0 +1,37 @@
+#!/bin/bash
+
+BENCHMARK=$(date "+%Y.%m.%d-%H.%M.%S")
+DUMPSYSINFO=/var/log/dumpsysinfo-$BENCHMARK.log
+
+# Sample script written for Part 4 of the RHCE series
+# This script will return the following set of system information:
+# -Hostname information:
+# DUMPSYSINFO is designed to compile and output full system info to screen in colorful graph while piping a copy to its log location in /var/log/dumpsysinfo.log with time/date stamp for benchmarking.
+
+echo -e "\e[31;43m***** HOSTNAME INFORMATION *****\e[0m"  | tee DUMPSYSINFO
+hostnamectl | tee DUMPSYSINFO
+echo ""
+# -File system disk space usage:
+echo -e "\e[31;43m***** FILE SYSTEM DISK SPACE USAGE *****\e[0m"  | tee DUMPSYSINFO
+df -h  | tee DUMPSYSINFO
+echo ""
+# -Free and used memory in the system:
+echo -e "\e[31;43m ***** FREE AND USED MEMORY *****\e[0m"  | tee DUMPSYSINFO
+free
+echo ""
+# -System uptime and load:
+echo -e "\e[31;43m***** SYSTEM UPTIME AND LOAD *****\e[0m"  | tee DUMPSYSINFO
+uptime
+echo ""
+# -Logged-in users:
+echo -e "\e[31;43m***** CURRENTLY LOGGED-IN USERS *****\e[0m"  | tee DUMPSYSINFO
+who
+echo ""
+# -Top 5 processes as far as memory usage is concerned
+echo -e "\e[31;43m***** TOP 5 MEMORY-CONSUMING PROCESSES *****\e[0m"  | tee DUMPSYSINFO
+ps -eo %mem,%cpu,comm --sort=-%mem | head -n 6  | tee DUMPSYSINFO
+echo ""
+echo -e "\e[1;32mDone.\e[0m"  | tee DUMPSYSINFO
+
+# Prompt with while true yes/no to view log 
+echo "LOG LOCATION IS LOCATED IN: $DUMPSYSINFO"

@@ -1,0 +1,5 @@
+#!/bin/bash
+Recipient=”wacrochester@gmail.com”
+Subject=”Sent From Linux System Call Script”
+Message=”Welcome you are seeing this email because it was executed from a script running on your linux system for mail testing purposes”
+`mail -s $Subject $Recipient <<< $Message`

@@ -1,0 +1,144 @@
+#!/bin/bash
+
+update-system-configuration || echo "Update failed" | mail -s "Help Me" admin@host
+
+if ! <command>; then
+    <ran if unsuccessful>
+fi
+
+
+The reason this works, is because as a standard, programs should return nonzero if something went wrong, and zero if successful.
+
+Alternatively, you could test for the return variable $?:
+
+<command>
+if [ $? -ne 0 ]; then
+    <ran if unsuccessful>
+fi
+
+$? saves the return code from the last command.
+
+Now, if is usually a shell built-in command. So, depending what shell you're using, you should check the man page of your shell for that.
+
+for VARIABLE in file1 file2 file3
+do
+	command1 on $VARIABLE
+	command2
+	commandN
+done
+
+
+for OUTPUT in $(Linux-Or-Unix-Command-Here)
+do
+	command1 on $OUTPUT
+	command2 on $OUTPUT
+	commandN
+done
+
+
+
+echo "Starting to run the script..."
+
+# VARIABLE ASSIGNMENT
+
+# Show hostname:
+
+HOST=$(hostname)
+
+# User executing the script:
+
+CURRENTUSER=$(whoami)
+
+# Current date:
+
+CURRENTDATE=$(date +%F)
+
+# Host IP address:
+
+IPADDRESS=$(hostname -I | cut -d ' ' -f1)
+
+
+# SHOW MESSAGES
+
+echo "Today is $CURRENTDATE"
+
+echo "Hostname: $HOST ($IPADDRESS)"
+
+echo "User info for $CURRENTUSER:"
+
+grep $CURRENTUSER /etc/passwd
+
+
+
+
+for variable-name in list
+
+do
+
+    Run command on variable-name as $variable-name
+
+done
+
+
+
+for FILE in file1.txt file2.txt file3.txt
+
+do
+
+    chmod 640 $FILE
+
+done
+
+
+
+for FILE in $(ls -1 | grep file)
+
+do
+
+    chmod 640 $FILE
+
+done
+
+
+
+# READ FILE LINE BY LINE
+
+while read LINE
+
+do
+
+    USERNAME=$(echo $LINE | cut -d':' -f 1)
+
+    USERID=$(echo $LINE | cut -d':' -f 3)
+
+    echo "The UID of $USERNAME is $USERID"
+
+done < /etc/passwd
+
+
+
+
+
+
+#!/bin/bash
+
+RANDOMNUM=$(shuf -i1-10 -n1)
+
+
+NUMBER=0
+
+
+while [ $NUMBER != $RANDOMNUM ]
+
+do
+
+    read -p "Enter a number between 1 and 10: " NUMBER
+
+done
+
+echo "Congratulations! Your guess was right!"
+
+
+
+
+
