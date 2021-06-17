@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "find /tmp -type f -size +50000k -delete"
+find /tmp -type f -size +50000k -exec ls -lh {} \; | awk '{ print $9 }' | rm -rf
+
+echo "find ./ -size +1M | xargs rm"
