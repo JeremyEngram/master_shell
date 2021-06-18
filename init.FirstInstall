@@ -15,6 +15,7 @@ sudo chown $USER /opt /usr/local/bin /var/www/html
 #Git master_shell repository and implement it
 cd /usr/local/bin && git clone https://github.com/JeremyEngram/master_shell.git
 mv /usr/local/bin/master_shell/* /usr/local/bin/
+rm -rf /usr/local/bin/master_shell/
 
 #System wide chmod to arm all github scripts in /usr/local/bin/* from initial git commit 
 sudo chmod +x /usr/local/bin/*
@@ -22,6 +23,7 @@ sudo chmod +x /usr/local/bin/*
 #First time install of all system wide used linux packages including git
 #sudo apt install -y synaptic snap snapd gnome-screenshot terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
 
+#For loop faster install of packages
 PKGS="synaptic snap snapd gnome-screenshot terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module"
 for p in $PKGS
 do
@@ -39,6 +41,7 @@ tar xf /opt/*.tar.xz && sudo rm -rf /opt/*.tar.xz
 #Remove and clean up default unused miscalanious packages
 #sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot
 
+#For loop faster removal of default system packages marked as miscalanous
 PKGS="gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot"
 for p in $PKGS
 do
@@ -109,6 +112,19 @@ done
 
 #Do full system cleanup with rmtrash custom script
 sudo rmtrash 
+
+
+#Ask user if they want to clean up the system with rmtrash command
+while true; do
+    read -p "Clean up system with rmtrash? " yn
+    case $yn in
+        [Yy]* ) sudo rmtrash 
+ ; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
 
 echo
 echo "FIRE TIME SYSTEM INSTALL SETUP SCRIPT COMPLETE!"
