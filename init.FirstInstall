@@ -1,5 +1,7 @@
 #!/bin/bash
 
+EMAILLOG="mail -s "nmap spool" wacrochester@gmail.com"
+
 echo
 echo " FULL SYSTEM FIRST TIME INSTALL OF ALL USER PREFERNECE BASED PROGRAM PACKAGES AND CONFIGURATIONS "
 echo 
@@ -7,7 +9,7 @@ echo
 sleep 2
 
 #Do first time full system update and upgrade
-sudo apt update && sudo apt upgrade -y && sudo apt autoremove 
+sudo apt update && sudo apt upgrade -y && sudo apt autoremove
 
 #Take ownership of widly used system folders for default user access to make changes wthout sudo
 sudo chown $USER /opt /usr/local/bin /var/www/html
@@ -127,5 +129,5 @@ done
 
 
 echo
-echo "FIRE TIME SYSTEM INSTALL SETUP SCRIPT COMPLETE!"
+echo "FIRE TIME SYSTEM INSTALL SETUP SCRIPT COMPLETE!" | $EMAILLOG
 echo
