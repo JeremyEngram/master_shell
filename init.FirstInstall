@@ -12,6 +12,9 @@ sudo apt update && sudo apt upgrade -y && sudo apt autoremove
 #Take ownership of widly used system folders for default user access to make changes wthout sudo
 sudo chown $USER /opt /usr/local/bin /var/www/html
 
+#Git master_shell repository and implement it
+cd /usr/local/bin && git clone https://github.com/JeremyEngram/master_shell.git
+
 #System wide chmod to arm all github scripts in /usr/local/bin/* from initial git commit 
 sudo chmod +x /usr/local/bin/*
 
@@ -31,6 +34,9 @@ sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku r
 #Commit all system wide used aliases to ~/.bashrc
 sudo chmod +x /usr/local/bin/aliases && sudo aliases
 source ~/.bashrc
+
+#Create symlinks for better names to existing scripts
+echo "Create symlink from gnome-terminal to newshell" | ln -s /usr/bin/gnome-terminal /usr/local/bin/newshell
 
 #Make system wide changes to never sleep again
 echo "[Disable suspend]
