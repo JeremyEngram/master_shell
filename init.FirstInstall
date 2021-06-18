@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EMAILLOG="mail -s "nmap spool" wacrochester@gmail.com"
+EMAILLOG="mail -s 'nmap spool' wacrochester@gmail.com"
 
 echo
 echo " FULL SYSTEM FIRST TIME INSTALL OF ALL USER PREFERNECE BASED PROGRAM PACKAGES AND CONFIGURATIONS "
