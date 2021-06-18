@@ -14,6 +14,7 @@ sudo chown $USER /opt /usr/local/bin /var/www/html
 
 #Git master_shell repository and implement it
 cd /usr/local/bin && git clone https://github.com/JeremyEngram/master_shell.git
+mv /usr/local/bin/master_shell/* /usr/local/bin/
 
 #System wide chmod to arm all github scripts in /usr/local/bin/* from initial git commit 
 sudo chmod +x /usr/local/bin/*
@@ -48,6 +49,7 @@ done
 #Commit all system wide used aliases to ~/.bashrc
 sudo chmod +x /usr/local/bin/aliases && sudo aliases
 source ~/.bashrc
+sudo rm -rf /usr/local/bin/aliases
 
 #Create symlinks for better names to existing scripts
 echo "Create symlink from gnome-terminal to newshell" | ln -s /usr/bin/gnome-terminal /usr/local/bin/newshell
