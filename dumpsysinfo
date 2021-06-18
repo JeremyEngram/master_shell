@@ -1,37 +1,66 @@
 #!/bin/bash
 
-BENCHMARK=$(date "+%Y.%m.%d-%H.%M.%S")
-DUMPSYSINFO=/var/log/dumpsysinfo-$BENCHMARK.log
+#BENCHMARK=$(date "+%Y.%m.%d-%H.%M.%S")
+DUMPSYSINFO=/var/log/DUMPSYSINFO-$(date "+%Y.%m.%d-%H.%M.%S").log
 
 # Sample script written for Part 4 of the RHCE series
 # This script will return the following set of system information:
 # -Hostname information:
-# DUMPSYSINFO is designed to compile and output full system info to screen in colorful graph while piping a copy to its log location in /var/log/dumpsysinfo.log with time/date stamp for benchmarking.
+# $DUMPSYSINFO is designed to compile and output full system info to screen in colorful graph while piping a copy to its log location in /var/log/$DUMPSYSINFO.log with time/date stamp for benchmarking.
 
-echo -e "\e[31;43m***** HOSTNAME INFORMATION *****\e[0m"  | tee DUMPSYSINFO
-hostnamectl | tee DUMPSYSINFO
+echo -e "\e[31;43m***** HOSTNAME INFORMATION *****\e[0m"  | tee -a $DUMPSYSINFO
+hostnamectl | tee -a $DUMPSYSINFO | 
 echo ""
 # -File system disk space usage:
-echo -e "\e[31;43m***** FILE SYSTEM DISK SPACE USAGE *****\e[0m"  | tee DUMPSYSINFO
-df -h  | tee DUMPSYSINFO
+echo -e "\e[31;43m***** FILE SYSTEM DISK SPACE USAGE *****\e[0m"  | tee -a $DUMPSYSINFO
+df -h  | tee -a $DUMPSYSINFO
 echo ""
 # -Free and used memory in the system:
-echo -e "\e[31;43m ***** FREE AND USED MEMORY *****\e[0m"  | tee DUMPSYSINFO
-free
+echo -e "\e[31;43m ***** FREE AND USED MEMORY *****\e[0m"  | tee -a $DUMPSYSINFO
+free | tee -a $DUMPSYSINFO
 echo ""
 # -System uptime and load:
-echo -e "\e[31;43m***** SYSTEM UPTIME AND LOAD *****\e[0m"  | tee DUMPSYSINFO
-uptime
+echo -e "\e[31;43m***** SYSTEM UPTIME AND LOAD *****\e[0m"  | tee -a $DUMPSYSINFO
+uptime | tee -a $DUMPSYSINFO
 echo ""
 # -Logged-in users:
-echo -e "\e[31;43m***** CURRENTLY LOGGED-IN USERS *****\e[0m"  | tee DUMPSYSINFO
-who
+echo -e "\e[31;43m***** CURRENTLY LOGGED-IN USERS *****\e[0m"  | tee -a $DUMPSYSINFO
+who | tee -a $DUMPSYSINFO
 echo ""
 # -Top 5 processes as far as memory usage is concerned
-echo -e "\e[31;43m***** TOP 5 MEMORY-CONSUMING PROCESSES *****\e[0m"  | tee DUMPSYSINFO
-ps -eo %mem,%cpu,comm --sort=-%mem | head -n 6  | tee DUMPSYSINFO
+echo -e "\e[31;43m***** TOP 5 MEMORY-CONSUMING PROCESSES *****\e[0m"  | tee -a $DUMPSYSINFO
+ps -eo %mem,%cpu,comm --sort=-%mem | head -n 6  | tee -a $DUMPSYSINFO
 echo ""
-echo -e "\e[1;32mDone.\e[0m"  | tee DUMPSYSINFO
+echo -e "\e[1;32mDone.\e[0m"  | tee -a $DUMPSYSINFO
+
+
+echo -e "\e[31;43m***** SHOW RUNNING PROCESSES *****\e[0m"  | tee -a $DUMPSYSINFO
+#ifconfig wlo1 | grep inet | tee -a $DUMPSYSINFO
+ps -aux | tee -a $DUMPSYSINFO
+echo ""
+
+
+echo -e "\e[31;43m***** LARGEST DIRECTORIES AND FILES *****\e[0m"  | tee -a $DUMPSYSINFO
+sudo -i du -a / | sort -n -r | head -n 20 | tee -a $DUMPSYSINFO
+echo ""
+
+
+echo -e "\e[31;43m***** NETWORK INFORMATION *****\e[0m"  | tee -a $DUMPSYSINFO
+#ifconfig wlo1 | grep inet | tee -a $DUMPSYSINFO
+ifconfig | tee -a $DUMPSYSINFO
+echo ""
+
+
+echo -e "\e[31;43m***** SHOW RUNNING WEB-SERVER *****\e[0m"  | tee -a $DUMPSYSINFO
+sudo netstat -tnlp | grep 80 | tee -a $DUMPSYSINFO
+echo ""
+
+
+echo -e "\e[31;43m***** SHOW LOG REPORT *****\e[0m"  | tee -a $DUMPSYSINFO
+cat /var/log/ tee -a $DUMPSYSINFO
+echo ""
+
 
 # Prompt with while true yes/no to view log 
-echo "LOG LOCATION IS LOCATED IN: $DUMPSYSINFO"
+echo "LOG LOCATION IS LOCATED IN: $DUMPSYSINFO.$BENCHMARK"
+echo $DUMPSYSINFO.$BENCHMARK | mail -s "$HOSTNAME SYSTEM DUMPSYSINFO" wacrochester@gmail.com && echo "EMAILED $HOSTNAME SYSTEM INFO TO ADMINISTRATOR AT WACROCHESTER@GMAIL.COM"
