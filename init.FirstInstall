@@ -19,7 +19,14 @@ cd /usr/local/bin && git clone https://github.com/JeremyEngram/master_shell.git
 sudo chmod +x /usr/local/bin/*
 
 #First time install of all system wide used linux packages including git
-sudo apt install -y synaptic snap snapd gnome-screenshot terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
+#sudo apt install -y synaptic snap snapd gnome-screenshot terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
+
+PKGS="synaptic snap snapd gnome-screenshot terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module"
+for p in $PKGS
+do
+   echo "Installing $p packages"
+   sudo apt install -y "$p"
+done
 
 #Install required system wide snap packages
 sudo snap install riseup-vpn
@@ -29,7 +36,14 @@ wget https://www.torproject.org/dist/torbrowser/10.0.17/tor-browser-linux64-10.0
 tar xf /opt/*.tar.xz && sudo rm -rf /opt/*.tar.xz
 
 #Remove and clean up default unused miscalanious packages
-sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot
+#sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot
+
+PKGS="gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot"
+for p in $PKGS
+do
+   echo "Removing $p packages"
+   sudo apt remove -y "$p"
+done
 
 #Commit all system wide used aliases to ~/.bashrc
 sudo chmod +x /usr/local/bin/aliases && sudo aliases
