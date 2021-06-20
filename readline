@@ -1,0 +1,7 @@
+#!/bin/bash
+
+input="/path/to/text/file"
+while IFS=read -r line
+do
+echo "$line"
+done < "$input
