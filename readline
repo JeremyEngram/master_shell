@@ -1,4 +1,13 @@
 #!/bin/bash
+#read line by line interface for porting to other interfaces
+
+#echo -n "Read Input File: "
+#read file
+#input="$file"
+#while IFS=read -r line
+#do
+#echo "$line"
+#done < $input
 
 input="/path/to/text/file"
 while IFS=read -r line
