@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 echo
 echo "		RMTRASH - PURGE AND BLOWOFF ALL FREE SPACE		"
 echo 
