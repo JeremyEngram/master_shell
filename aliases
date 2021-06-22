@@ -7,4 +7,4 @@ echo "alias arm='sudo chmod +x'" | tee -a ~/.bashrc
 echo "alias unet='sudo QT_X11_NO_MITSHM=1 /usr/bin/unetbootin'" | tee -a ~/.bashrc
 echo "alias newshell='gnome-terminal'" | tee -a ~/.bashrc
 echo "alias url2pdf='wkhtmltopdf'" | tee -a ~/.bashrc
-
+echo "alias ducks='du -cks * | sort -rn | head'" | tee -a ~/.bashrc
