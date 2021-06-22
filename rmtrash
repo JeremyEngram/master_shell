@@ -4,6 +4,8 @@ echo
 echo "		RMTRASH - PURGE AND BLOWOFF ALL FREE SPACE		"
 echo 
 
+echo "    Removing:    sudo rm -rf ~/.local/share/Trash/  ~/.cache/thumbnails/*  /var/cache/apt/*  /var/cache/apt/archives/*  /var/lib/apt/lists/*  /var/lib/snapd/snaps/partial/*  /home/$USER/.cache/*   "
+echo | sleep 2
 sudo rm -rf ~/.local/share/Trash/
 sudo rm -rf ~/.cache/thumbnails/*
 sudo rm -rf /var/cache/apt/*
@@ -40,12 +42,14 @@ sudo apt-get autoremove -y
 
 
 #Getting rid of orphaned packages
+echo "Getting Rid Of All Orphaned Packages With Deborphan Temporary Install..."
 sudo apt install deborphan && sudo deborphan | xargs sudo apt-get -y remove --purge && sudo apt remove -y deborphan
 
 #Free up space by clean out the cached packages
 #apt-get clean
 
 # Remove the Trash
+echo "Remove All Trash..."
 #rm -rf /home/$USER/.local/share/Trash/*/**
 sudo rm -rf /root/.local/share/Trash/*/**
 
