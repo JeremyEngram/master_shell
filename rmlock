@@ -20,7 +20,6 @@ sudo kill apt && sudo kill apt-get
 ps aux | grep [a]pt
 ps aux | grep -i apt && sudo kill -9 apt apt-get
 
-
 sudo killall apt apt-get
 
-
+sudo apt update
