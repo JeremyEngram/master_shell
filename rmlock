@@ -1,5 +1,26 @@
 #!/bin/bash
 
+echo "Remove Apt/Apt-Get Lock..."
+
+echo "Which Program Or Process Is Using Lock File? " | sudo lsof /var/lib/dpkg/lock-frontend
+
 sudo rm /var/lib/apt/lists/lock
+sudo rm /var/lib/apt/lists/lock-frontend
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock
+
+sudo dpkg --configure -a
+sudo apt install -f
+
+ps aux | grep [a]pt
+ps aux | grep -i apt
+
+sudo kill apt && sudo kill apt-get
+
+ps aux | grep [a]pt
+ps aux | grep -i apt && sudo kill -9 apt apt-get
+
+
+sudo killall apt apt-get
+
+
