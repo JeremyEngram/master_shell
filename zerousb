@@ -1,0 +1,5 @@
+#!/bin/bash
+echo -n "Device To Zero: "
+read setdev
+sleep 2 | echo "WARNING: THIS WILL ZERO $setdev DEVICE! ...YOU HAVE 2 MINUTES TO CTRL+C BEFORE DEVICE WRITES!'
+sudo dd if=/dev/zero of=/dev/$setdev status=progress

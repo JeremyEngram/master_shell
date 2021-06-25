@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while true; do
+    read -p "Do you wish to update?" yn
+    case $yn in
+        [Yy]* ) sudo apt update; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done

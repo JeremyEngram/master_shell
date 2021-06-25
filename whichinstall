@@ -1,0 +1,14 @@
+#!/bin/bash
+
+read -p "Package > " pkg
+
+if ! which $pkg > /dev/null; then
+   #echo -e "$pkg not found! Install? (y/n) \c"
+   read
+   if "$REPLY" = "y"; then
+      sudo apt install -y $pkg
+   fi
+fi
+
+
+

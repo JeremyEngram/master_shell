@@ -1,0 +1,5 @@
+
+tar -czvf archive.tar.gz /home/ubuntu --exclude=/home/ubuntu/Downloads
+tar -czvf archive.tar.gz /home/ubuntu --exclude=*.mp4
+
+
