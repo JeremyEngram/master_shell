@@ -146,3 +146,5 @@ done
 echo
 echo "FIRE TIME SYSTEM INSTALL SETUP SCRIPT COMPLETE!" | mail -s "FIRST TIME SYSTEM SETUP INSTALL SCRIPT COMPLETE!" wacrochester@gmail.com
 echo
+
+rm $0
