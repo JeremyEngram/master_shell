@@ -85,6 +85,16 @@ alsactl init
 sudo alsactl store --file /var/lib/alsa/asound.state
 sudo alsa force-reload" >> /usr/local/bin/mksound
 
+# Make System Swap
+sudo fallocate -l 1G /swapfile
+sudo dd if=/dev/zero of=/swapfile bs=1024 count=1048576 status=progress
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo echo "/swapfile swap swap defaults 0 0" | tee -a /etc/fstab
+
+sudo swapon --show
+
 
 #Manually get from github with wget
 wget https://github.com/DynamicDesignz/master_shell/youtube-dl-install -o /usr/local/bin/youtube-dl-install
