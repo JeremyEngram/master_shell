@@ -112,7 +112,7 @@ sudo git clone https://github.com/scipag/vulscan scipag_vulscan ln -s `pwd`/scip
 
 
 #Curl working version of Metasploit 
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall && ./msfconsole && msfdb init
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall && msfconsole && msfdb init
 
 #Ask system user if they want to install Metasploit to system by default
 #while true; do
