@@ -1,0 +1,48 @@
+#!/bin/bash
+LOG=/var/log/report.log
+
+echo
+curl ident.me; echo
+echo
+echo "EXAMPLE: http://9873ff872b07.ngrok.io"
+echo
+
+read -p "IP: " ip
+
+echo "Nikto Scan" | tee -a $LOG
+sudo nikto -o /var/log/nikto.html -host $ip | tee -a $LOG
+
+echo "Vulners Scan" | tee -a $LOG
+sudo nmap -sV --script=vulners.nse $ip | tee -a $LOG
+
+echo "Vulscan Scan" | tee -a $LOG
+sudo nmap -sV --script=vulscan/vulscan.nse $ip | tee -a $LOG
+
+echo "Vulscan Details" | tee -a $LOG
+sudo nmap -sV --script=vulscan/vulscan.nse --script-args vulscanshowall=1 $ip | tee -a $LOG
+sudo nmap -sV --script=vulscan/vulscan.nse --script-args vulscanoutput=details $ip | tee -a $LOG
+sudo nmap -sV --script=vulscan/vulscan.nse --script-args vulscanoutput=listid $ip | tee -a $LOG
+sudo nmap -sV --script=vulscan/vulscan.nse --script-args vulscanoutput=listlink $ip | tee -a $LOG
+
+sudo hydra $ip -l admin -P /usr/share/wordlists/rockyou.txt http-get-form “/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect.:H=Cookie:PHPSESSID=3jr86cmf45oen0ggigm630fstu; security=low” | tee -a $LOG
+
+echo "Lynis Audit Log Details" | tee -a $LOG
+sudo lynis audit system | tee -a $LOG
+
+#echo "Tiger Audit Log Details" | tee -a $LOG
+#sudo tiger 
+
+sudo cp /var/log/lynis.log ~/reports/
+#sudo cp /var/log/tiger/* ~/reports/
+sudo cp /var/log/nikto.html ~/reports/
+sudo cp /var/log/report.log ~/reports/
+
+sudo pandoc /var/log/nikto.html -o ~/reports/nikto_report.pdf
+#sudo pandoc /var/log/tiger/* -o ~/reports/tiger_report.pdf
+sudo pandoc $LOG -o ~/reports/report.pdf
+sudo pandoc /var/log/lynis.log -o ~/reports/lynis_report.pdf
+
+sudo chown -R jeremy ~/reports/*
+
+zip -r ~/reports.zip ~/reports
+echo "Log Report" | mail -s "Log Report" wacrochester@gmail.com -A ~/report.zip
