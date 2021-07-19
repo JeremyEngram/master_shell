@@ -1,0 +1,14 @@
+#1/bin/bash
+
+LOG=/var/log/apt/master.log
+
+  read -p "Master CMD: " pkg
+
+command -v $pkg | tee -a $LOG
+sudo apt-cache search $pkg | tee -a $LOG
+sudo apt-cache show $pkg | tee -a $LOG                
+apropos $pkg | tee -a $LOG                
+whereis $pkg | tee -a $LOG                
+which $pkg | tee -a $LOG
+
+gedit /var/log/apt/master.log
