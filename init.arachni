@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /opt && sudo wget https://github.com/Arachni/arachni/releases/download/v1.5.1/arachni-1.5.1-0.5.12-linux-x86_64.tar.gz
+sudo tar -xf *.tar.gz

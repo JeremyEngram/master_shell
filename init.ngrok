@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /usr/local/bin; wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip; sudo chmod +x ngrok
+ngrok authtoken 1rEIYoWfDkbfrq4A7BDBsrT07vq_71be7Si4PupUsPWKQaA74

