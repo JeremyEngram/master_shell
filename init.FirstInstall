@@ -1,148 +1,225 @@
-#!/bin/bash
+!/bin/bash
 
-echo
-echo " FULL SYSTEM FIRST TIME INSTALL OF ALL USER PREFERNECE BASED PROGRAM PACKAGES AND CONFIGURATIONS "
-echo 
+  banner "INIT FIRST INSTALL"
 
- #if [ `whoami` != 'root' ]; then
- #	echo "Executing the installer script"
- #   #PATH TO INSTALL SCRIPT
- #else
- #	echo "Root is not allowed to execute the installer script"
- #fi
 
-sleep 2
+     echo
+  echo " FULL SYSTEM FIRST TIME INSTALL OF ALL USER PREFERENCES AND CONFIGURATIONS "
+     echo 
 
-#Do first time full system update and upgrade
-echo "Full System Update & Upgrade" | sudo apt update && sudo apt upgrade -y && sudo apt autoremove; echo
 
-#Take ownership of widly used system folders for default user access to make changes wthout sudo
-echo "Taking Full Ownership Of System Directories" | sudo chown $USER /opt /usr/local/bin /var/www/html; echo
+    #if [ `whoami` == 'root' ]; then
+    #	echo "Executing the installer script"
+    #   #PATH TO INSTALL SCRIPT
+    #else
+    #	echo "Root is not allowed to execute the installer script"
+    #fi
 
-#Git master_shell repository and implement it
-echo "Implementing Github Master_Shell Scripts";
-cd /usr/local/bin && git clone https://github.com/JeremyEngram/master_shell.git
-mv /usr/local/bin/master_shell/* /usr/local/bin/
-rm -rf /usr/local/bin/master_shell/
-echo
-#System wide chmod to arm all github scripts in /usr/local/bin/* from initial git commit 
-echo "Arming All Custom Scripts For Use... ARMED!" | sudo chmod +x /usr/local/bin/*
-echo
-#First time install of all system wide used linux packages including git
-#sudo apt install -y synaptic snap snapd gnome-screenshot terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module
+         sleep 2
 
-#For loop faster install of packages
-echo "Implementing Full Custom Packages Install... WAIT FOR IT!";
-PKGS="cockpit synaptic snap snapd gnome-screenshot terminator yakuake wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module"
-for p in $PKGS
+
+
+    #Disable Apport before removing
+sudo service apport stop && sudo sed -i -e 's/enabled=1/enabled=0/g' /etc/default/apport
+
+    #Do first time full system update and upgrade
+echo "Full System Update & Upgrade"; sudo apt update && sudo apt upgrade -y && sudo apt autoremove; echo
+
+    #Minimize Window Launchers OnClick
+gsettings set org.gnome.shell.extensions.dash-to-dock click-action ‘minimize’
+
+    #Take ownership of widly used system folders for default user access to make changes wthout sudo
+echo "Taking Full Ownership Of System Directories"; sudo chown $USER /opt /usr/local/bin /var/www/html; echo
+
+    #Implement Boot-Repair
+echo "Implementing Boot-Repair..."; sudo add-apt-repository ppa:yannubuntu/boot-repair && sudo apt-get update -y && sudo apt-get install -y boot-repair && boot-repair
+
+
+
+
+   #Remove Extra Fonts
+echo "Removing Extra Fonts..."; sudo apt-get remove -y fonts-kacst fonts-kacst-one fonts-khmeros-core fonts-lklug-sinhala fonts-guru fonts-nanum fonts-noto-cjk fonts-takao-pgothic fonts-tibetan-machine fonts-guru-extra fonts-lao fonts-sil-padauk fonts-sil-abyssinica fonts-tlwg-* fonts-lohit-* fonts-beng fonts-beng-extra fonts-gargi fonts-gubbi fonts-gujr fonts-gujr-extra fonts-kalapi fonts-lohit-gujr fonts-samyak-* fonts-navilu fonts-nakula fonts-orya-extra fonts-pagul fonts-sahadeva fonts-sarai fonts-smc fonts-telu-extra fonts-wqy-microhei
+
+    sudo apt purge fonts-kacst fonts-kacst-one \
+    fonts-khmeros-core fonts-lklug-sinhala \
+    fonts-lohit-guru fonts-guru fonts-nanum \
+    fonts-noto-cjk fonts-takao-pgothic \
+    fonts-tibetan-machine fonts-guru-extra \
+    fonts-lao fonts-sil-padauk fonts-sil-abyssinica \
+    fonts-tlwg-* && sudo apt autoremove
+
+
+
+
+   #Implement TimeShift Backup
+#    sudo add-apt-repository –y ppa:teejee2008/ppa
+#    sudo apt-get update
+#    sudo apt-get install -y timeshift
+
+   #Implement Ubuntu-Clean
+     sudo add-apt-repository ppa:gerardpuig/ppa
+     sudo apt-get update
+     sudo apt-get install Ubuntu-cleaner
+
+   #Git master_shell repository and implement it
+#    echo "Implementing Github Master_Shell Scripts";
+#    cd /usr/local/bin && git clone https://github.com/JeremyEngram/master_shell.git
+#    mv /usr/local/bin/master_shell/* /usr/local/bin/
+#    rm -rf /usr/local/bin/master_shell/
+
+
+
+        echo
+
+   #System wide chmod to arm all github scripts in /usr/local/bin/* from initial git commit 
+      echo "Arming All Custom Scripts For Use... ARMED!"; sudo chmod +x /usr/local/bin/*
+
+        echo
+
+                 #yes | sudo apt install default-jre
+
+
+   #First time install of all system wide used linux packages including git
+      #sudo apt install -y synaptic cockpit tasksel flatpak gnome-software-plugin-flatpak snap terminator net-tools snapd gnome-screenshot terminator nmap wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc openjdk-11-jdk tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module banner
+
+
+  #For loop faster install of packages
+      echo "Implementing Full Custom Packages Install... WAIT FOR IT!"; echo 
+  PKGS="synaptic flatpak gnome-software-plugin-flatpak snap snapd gnome-screenshot net-tools wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common openjdk-11-jdk vlc tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module nmap banner"
+  for p in $PKGS
 do
    echo "Installing $p packages"
    sudo apt install -y "$p"
-done
-echo
-#Install required system wide snap packages
-echo "Implementing Rise-Up Standalone Snap VPN" | sudo snap install riseup-vpn; echo
+ done
 
-#Wget TOR onion browser from tor website uncompress and arm executable gui script for first time start
-echo "Unpackaging Tor Web Browser From Source & Installing..." | wget https://www.torproject.org/dist/torbrowser/10.0.17/tor-browser-linux64-10.0.17_en-US.tar.xz -P /opt
+    echo
+
+
+    #Install required system wide snap packages
+       #echo "Implementing Rise-Up Standalone Snap VPN"; sudo snap install riseup-vpn; echo
+
+
+    #Wget TOR onion browser from tor website uncompress and arm executable gui script for first time start
+    echo "Unpackaging Tor Web Browser From Source & Installing..."; wget https://www.torproject.org/dist/torbrowser/10.0.17/tor-browser-linux64-10.0.17_en-US.tar.xz -P /opt
 tar xf /opt/*.tar.xz && sudo rm -rf /opt/*.tar.xz
 
-#Remove and clean up default unused miscalanious packages
-#sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot
-echo
-#For loop faster removal of default system packages marked as miscalanous
-echo "Remove ALL Default System Packages If They Exist...";
-PKGS="gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot"
-for p in $PKGS
-do
+
+    #Remove and clean up default unused miscalanious packages
+        #sudo apt remove y gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot apport apport-gtk
+
+    echo
+
+      #For loop faster removal of default system packages marked as miscalanous
+          echo "Remove ALL Default System Packages If They Exist...";
+          PKGS="gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot apport apport-gtk"
+    for p in $PKGS
+ do
    echo "Removing $p packages"
    sudo apt remove -y "$p"
-done
-echo
-#Commit all system wide used aliases to ~/.bashrc
-echo "Commit all system wide used aliases to ~/.bashrc";
-sudo chmod +x /usr/local/bin/aliases && sudo aliases
-source ~/.bashrc
-sudo rm -rf /usr/local/bin/aliases
+ done
 
-#Create symlinks for better names to existing scripts
-echo; echo "Create symlink from gnome-terminal to newshell" | ln -s /usr/bin/gnome-terminal /usr/local/bin/newshell; echo
+     echo
 
-#Make system wide changes to never sleep again
-echo "Making System Wide Changes To Never Sleep Again!";
-echo "[Disable suspend]
-Identity=unix-user:*
-Action=org.freedesktop.upower.suspend
-ResultActive=no
-" | tee -a /var/lib/polkit-1/localauthority/10-vendor.d/com.ubuntu.desktop.pkla
-
-sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-gsettings set org.gnome.desktop.screensaver lock-enabled false
-gsettings set org.gnome.desktop.session idle-delay 
-xset s off && xset -dpms
-echo
-#Add unetbootin repositories update and implement unetbootin to make new default linux usb
-echo "Implement Unetbootin For Forging Linux USB Devices..."; 
-sudo add-apt-repository ppa:gezakovacs/ppa
-sudo apt-get update
-sudo apt-get install -y unetbootin
-echo
-#Add python3 repository update and install python3
-echo "Implementing Python3.9 From Linux Repository"; 
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt install -y python3.9
-echo
-#Mksound from source file asound.state to commit working audio drivers for Acer Chromebook 14
-#sudo <<< wget https://gist.github.com/jeremy-breidenbach/92fc648ed2590ff9cd3a0ae57ed98e4a#file-asound-#state -o /usr/local/bin/asound.state
-#sudo cp /usr/local/bin/asound.state /var/lib/alsa/asound.state
-#sudo alsa force-reload
-#alsactl init
-#sudo alsactl store --file /var/lib/alsa/asound.state
-#sudo alsa force-reload" >> /usr/local/bin/mksound
-
-# Make System Swap
-echo "MAKE SYSTEM SWAP!"; echo
-sudo fallocate -l 1G /swapfile
-sudo dd if=/dev/zero of=/swapfile bs=1024 count=1048576 status=progress
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
-sudo echo "/swapfile swap swap defaults 0 0" | tee -a /etc/fstab
-
-echo "Implementing System Swap..." | sudo swapon --show
-
-#Manually get from github with wget
-wget https://github.com/DynamicDesignz/master_shell/youtube-dl-install -o /usr/local/bin/youtube-dl-install
-wget https://github.com/DynamicDesignz/master_shell/ytdl -o /usr/local/bin/ytdl
-
-#Manually git nmap vulscan scripts by defalt for widely used nmap seurity scanner scripts on github
-sudo git clone https://github.com/vulnersCom/nmap-vulners /usr/share/nmap/scripts
-sudo git clone https://github.com/scipag/vulscan scipag_vulscan ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan
+#  Commit all system wide used aliases to ~/.bashrc
+#  echo "Commit all system wide used aliases to ~/.bashrc";
+#  sudo chmod +x /usr/local/bin/aliases && sudo aliases
+#  source ~/.bashrc
+#  sudo rm -rf /usr/local/bin/aliases
 
 
-#Curl working version of Metasploit 
+    #Create symlinks for better names to existing scripts
+       #echo; echo "Create symlink from gnome-terminal to newshell"; ln -s /usr/bin/gnome-terminal /usr/local/bin/newshell; echo
+
+
+    #Make system wide changes to never sleep again
+  
+      echo "Making System Wide Changes To Never Sleep Again!";
+
+echo "
+  [Disable suspend]
+  Identity=unix-user:*
+  Action=org.freedesktop.upower.suspend
+  ResultActive=no
+     " | tee -a /var/lib/polkit-1/localauthority/10-vendor.d/com.ubuntu.desktop.pkla
+
+
+    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+    gsettings set org.gnome.desktop.screensaver lock-enabled false
+    gsettings set org.gnome.desktop.session idle-delay 
+    xset s off && xset -dpms
+
+
+      echo
+
+    #  Add unetbootin repositories update and implement unetbootin to make new default linux usb
+    #  echo "Implement Unetbootin For Forging Linux USB Devices..."; 
+    #  sudo add-apt-repository ppa:gezakovacs/ppa
+    #  sudo apt-get update
+    #  sudo apt-get install -y unetbootin
+
+      #echo
+
+    #Add python3 repository update and install python3
+    echo "Implementing Python3.9 From Linux Repository"; 
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    sudo apt install -y python3.9
+
+      echo
+
+     #Mksound from source file asound.state to commit working audio drivers for Acer Chromebook 14
+     sudo <<< wget https://gist.github.com/jeremy-breidenbach/92fc648ed2590ff9cd3a0ae57ed98e4a#file-asound-#state -o /usr/local/bin/asound.state
+     sudo cp /usr/local/bin/asound.state /var/lib/alsa/asound.state
+     sudo alsa force-reload
+     alsactl init
+     sudo alsactl store --file /var/lib/alsa/asound.state
+     sudo alsa force-reload" >> /usr/local/bin/mksound
+
+     # Make System Swap
+#    echo "MAKE SYSTEM SWAP!"; echo
+#    sudo fallocate -l 1G /swapfile
+#    sudo dd if=/dev/zero of=/swapfile bs=1024 count=1048576 status=progress
+#    sudo chmod 600 /swapfile
+#    sudo mkswap /swapfile
+#    sudo swapon /swapfile
+#    sudo echo "/swapfile swap swap defaults 0 0" | tee -a /etc/fstab
+
+    #echo "Implementing System Swap..."; sudo swapon --show
+
+    #Manually get from github with wget
+       wget https://github.com/DynamicDesignz/master_shell/youtube-dl-install -o /usr/local/bin/youtube-dl-install
+       wget https://github.com/DynamicDesignz/master_shell/ytdl -o /usr/local/bin/ytdl
+
+    #Manually git nmap vulscan scripts by defalt for widely used nmap seurity scanner scripts on github
+      sudo git clone https://github.com/vulnersCom/nmap-vulners /usr/share/nmap/scripts
+      sudo git clone https://github.com/scipag/vulscan scipag_vulscan; ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan
+
+    #Metasploit Dependencies
+       #sudo apt-get --install-suggests -y build-essential libreadline-dev libssl-dev libpq5 libpq-dev libreadline5 libsqlite3-dev libpcap-dev git-core autoconf postgresql pgadmin3 curl zlib1g-dev libxml2-dev libxslt1-dev libyaml-dev curl zlib1g-dev gawk bison libffi-dev libgdbm-dev libncurses5-dev libtool sqlite3 libgmp-dev gnupg2 dirmngr
+
+
+    #Curl working version of Metasploit 
 #curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall && msfconsole && msfdb init
 
-echo "Do you want to curl Metasploit source from github and compile from source?"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall && msfconsole && msfdb init; break;;
-        No ) exit;;
-    esac
-done
+
+  #echo "Do you want to curl Metasploit source from github and compile from source?"
+  #select yn in "Yes" "No"; do
+  #    case $yn in
+  #        Yes ) curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/ msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall && msfconsole && msfdb init; break;;
+  #        No ) exit;;
+  #    esac
+  #done
 
 
-#Ask system user if they want to install Metasploit to system by default
-#while true; do
-#    read -p "Implement Metasploit Framework? " yn
-#    case $yn in
+    #Ask system user if they want to install Metasploit to system by default
+#     while true; do
+#     read -p "Implement Metasploit Framework? " yn
+#     case $yn in
 #        [Yy]* ) curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/#metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall && ./#msfconsole && msfdb init
 # ; break;;
 #        [Nn]* ) exit;;
 #        * ) echo "Please answer yes or no.";;
 #    esac
-#done
-
+#     done
 
 
 echo "Do you wish to install VNC viewer from source website?"
@@ -153,7 +230,7 @@ select yn in "Yes" "No"; do
     esac
 done
 
-echo
+    echo
 
 echo "Do you wish to install VNC server from source website?"
 select yn in "Yes" "No"; do
@@ -164,27 +241,32 @@ select yn in "Yes" "No"; do
     esac
 done
 
-echo
-
-#Do full system cleanup with rmtrash custom script
-echo "Removing Full System Trash With "rmtrash"" | sudo rmtrash 
+    echo
 
 
-#Ask user if they want to clean up the system with rmtrash command
-#while true; do
+    #Do full system cleanup with rmtrash custom script
+#      echo "Removing Full System Trash With rmtrash"; sudo rmtrash 
+
+
+    #Ask user if they want to clean up the system with rmtrash command
+#      while true; do
 #    read -p "Clean up system with rmtrash? " yn
 #    case $yn in
 #        [Yy]* ) sudo rmtrash 
-# ; break;;
+#          ; break;;
 #        [Nn]* ) exit;;
 #        * ) echo "Please answer yes or no.";;
 #    esac
-done
+#     done
 
-echo
+   echo "Reduce Battery Useage With TLP..."; sudo systemct1 enable tlp; echo
 
-echo "FIRE TIME SYSTEM INSTALL SETUP SCRIPT COMPLETE!" 
-# | mail -s "FIRST TIME SYSTEM SETUP INSTALL SCRIPT COMPLETE!" wacrochester@gmail.com
-echo
+   echo "Run Fedora Flatpak Repo"; flatpak remote-add --if-not-exists flathub https://flathub-org/repo/flathub.flatpakrepo
 
-rm $0
+
+    echo "FIRE TIME SYSTEM INSTALL SETUP SCRIPT COMPLETE!" 
+       # | mail -s "FIRST TIME SYSTEM SETUP INSTALL SCRIPT COMPLETE!" wacrochester@gmail.com
+
+    echo
+
+exit 0 
