@@ -49,9 +49,13 @@ echo "Removing Extra Fonts..."; sudo apt-get remove -y fonts-kacst fonts-kacst-o
     fonts-tlwg-* && sudo apt autoremove
 
 
+    #Implement Zeit
+     sudo add-apt-repository ppa:blaze/main
+     sudo apt update
+     sudo apt install zeit
 
 
-   #Implement TimeShift Backup
+    #Implement TimeShift Backup
 #    sudo add-apt-repository –y ppa:teejee2008/ppa
 #    sudo apt-get update
 #    sudo apt-get install -y timeshift
@@ -80,12 +84,12 @@ echo "Removing Extra Fonts..."; sudo apt-get remove -y fonts-kacst fonts-kacst-o
 
 
    #First time install of all system wide used linux packages including git
-      #sudo apt install -y synaptic cockpit tasksel flatpak gnome-software-plugin-flatpak snap terminator net-tools snapd gnome-screenshot terminator nmap wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc openjdk-11-jdk tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module banner
+      #sudo apt install -y synaptic cockpit tasksel flatpak gnome-software-plugin-flatpak snap terminator net-tools snapd gnome-screenshot terminator nmap wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc openjdk-11-jdk tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module banner pigz
 
 
   #For loop faster install of packages
       echo "Implementing Full Custom Packages Install... WAIT FOR IT!"; echo 
-  PKGS="synaptic flatpak gnome-software-plugin-flatpak snap snapd gnome-screenshot net-tools wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common openjdk-11-jdk vlc tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module nmap banner"
+  PKGS="synaptic flatpak gnome-software-plugin-flatpak snap snapd gnome-screenshot net-tools wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common openjdk-11-jdk vlc tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module nmap banner pigz"
   for p in $PKGS
 do
    echo "Installing $p packages"
@@ -157,7 +161,7 @@ echo "
     #  sudo apt-get update
     #  sudo apt-get install -y unetbootin
 
-      #echo
+      echo
 
     #Add python3 repository update and install python3
     echo "Implementing Python3.9 From Linux Repository"; 
