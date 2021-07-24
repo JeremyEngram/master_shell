@@ -1,0 +1,97 @@
+#!/bin/bash
+
+ int=$(hostname -i)
+ wi=$(hostname -I)
+ sub=$(ip -4 addr show dev wlo1 | grep inet | tr -s " " | cut -d" " -f3 | head -n 1)
+ pub=$(curl ifconfig.me; echo)
+
+
+echo
+echo "LocalHost: $int |  Wireless: $wi | Wireless Subnet: $sub | Public: $pub"
+echo
+sudo route -n; echo
+
+  echo; sleep 2; echo
+
+echo "Localhost Address: $int"
+echo
+
+if ($( ping $int -c1 > /dev/null )) ; then
+  echo
+  echo "$int IS LIVE AND ONLINE!"; sleep 1
+  echo
+fi
+  sudo ping -c 4 $int; echo
+  sudo host $int; echo
+  sudo arp $int; echo
+  sudo nslookup $int; echo
+  sudo netstat -lt $int; echo
+  sudo traceroute $int; echo
+  sudo whois $int; echo
+
+  sudo nmap -sV --script=/usr/share/nmap/scripts/vulscan $int; echo
+
+ echo "Banner Grab: " $(nc $int 21) $(echo "" | nc -vv -n -w1 $int) $(sudo nmap -sV -script=banner $int) $(curl –s –I $int) $(telnet $int 21); echo
+
+ips=($(hostname -I))
+
+for ip in "${ips[@]}"
+do
+    echo "Wireless Address: $(echo '$wi')"
+
+if ($( ping $ip -c1 > /dev/null )) ; then
+  echo
+  echo "$ip IS LIVE AND ONLINE!"; sleep 1
+  echo
+fi
+  sudo ping -c 4 $ip; echo
+  sudo host $int; echo
+  sudo arp $ip; echo
+  sudo nslookup $ip; echo
+  sudo netstat -lt $ip; echo
+  sudo traceroute $ip; echo
+  sudo route; echo
+  sudo whois $ip; echo
+  
+
+  sudo nmap -sP $ip
+  sudo nmap -O $ip
+  sudo nmap -sV --script=/usr/share/nmap/scripts/vulscan $ip; echo
+
+echo
+    echo "Wireless Subnet: $sub"; echo
+    sudo nmap -sP $sub
+    sudo nmap -O $sub
+    sudo nmap -sV --script=/usr/share/nmap/scripts/vulscan $sub; echo
+echo
+    echo "Banner Grab: " $(nc $ip 21) $(echo "" | nc -vv -n -w1 $ip 80) $(sudo nmap -sV -script=banner $ip) $(curl –s –I $ip) $(telnet $ip 21); echo
+  echo
+  sudo nmap -sP $pub
+  sudo nmap -O $pub
+  sudo nmap -sV --script=/usr/share/nmap/scripts/vulscan $pub; echo
+echo
+
+  echo "Public IP Address:" $pub; echo
+if ($( ping $pub -c1 > /dev/null )) ; then
+  echo
+  echo "$pub IS LIVE AND ONLINE!"; sleep 1
+  echo
+fi
+  sudo ping -c 4 $pub; echo
+  sudo host $pub; echo  
+  sudo arp $pub; echo
+  sudo nslookip $pub; echo
+  sudo netstat -lt $pub; echo
+  sudo traceroute $pub; echo 
+  sudo whois $pub; echo
+
+ 
+  echo "Banner Grab: " $(nc $pub 21) $(echo "" | nc -vv -n -w1 $pub) $(sudo nmap -sV -script=banner $pub) $(curl –s –I $pub) $(telnet $pub 21)
+
+  sudo nmap -sP $pub; echo 
+  sudo nmap -O $pub; echo
+  sudo nmap -sV --script=/usr/share/nmap/scripts/vulscan $pub; echo
+
+    echo "Known DNS Server: $(dig @ns1-1.akamaitech.net ANY whoami.akamai.net +short)"
+
+done
