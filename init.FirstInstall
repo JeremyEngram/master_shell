@@ -17,6 +17,15 @@
 
          sleep 2
 
+#Create user system log direcotries and custom user logs
+sudo mkdir /var/log/nmap && sudo chmod 777 /var/log/nmap
+sudo touch /var/log/apt/search.log /var/log/apt/show.log /var/log/apt/implemented.log
+sudo chown $user:$user /var/log/apt/search.log /var/log/apt/show.log /var/log/apt/implemented.log
+sudo chmod 777 /var/log/apt/search.log /var/log/apt/show.log /var/log/apt/implemented.log
+
+
+ln /opt/* -s /usr/local/bin/*
+
 
 
     #Disable Apport before removing
@@ -63,7 +72,7 @@ echo "Removing Extra Fonts..."; sudo apt-get remove -y fonts-kacst fonts-kacst-o
    #Implement Ubuntu-Clean
      sudo add-apt-repository ppa:gerardpuig/ppa
      sudo apt-get update
-     sudo apt-get install Ubuntu-cleaner
+     sudo apt-get install ubuntu-cleaner
 
    #Git master_shell repository and implement it
 #    echo "Implementing Github Master_Shell Scripts";
@@ -84,15 +93,15 @@ echo "Removing Extra Fonts..."; sudo apt-get remove -y fonts-kacst fonts-kacst-o
 
 
    #First time install of all system wide used linux packages including git
-      #sudo apt install -y synaptic cockpit tasksel flatpak gnome-software-plugin-flatpak snap terminator net-tools snapd gnome-screenshot terminator nmap wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc openjdk-11-jdk tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module banner pigz
+      #sudo apt install -y synaptic xmount cockpit tasksel flatpak gnome-software-plugin-flatpak snap gftp terminator net-tools snapd gnome-screenshot terminator nmap wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common vlc openjdk-11-jdk tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module banner pigz
 
 
   #For loop faster install of packages
       echo "Implementing Full Custom Packages Install... WAIT FOR IT!"; echo 
-  PKGS="synaptic flatpak gnome-software-plugin-flatpak snap snapd gnome-screenshot net-tools wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common openjdk-11-jdk vlc tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module nmap banner pigz"
+  PKGS="synaptic xmount flatpak gnome-software-plugin-flatpak snap snapd gnome-screenshot net-tools wkhtmltopdf yakuake python python3 python-pip python3-pip build-essential bleachbit gparted gnome-tweak-tool ntfs-3g git nmap gnome-session-flashback ubuntu-restricted-extras software-properties-common openjdk-11-jdk vlc tlp tlp-rdw ntfs-3g ntfs-config disktype autofs exfat-fuse exfat-utils libcanberra-gtk-module nmap banner pigz"
   for p in $PKGS
 do
-   echo "Installing $p packages"
+   sudo apt-cache show $p | tee -a ~/Desktop/show.log
    sudo apt install -y "$p"
  done
 
@@ -118,7 +127,7 @@ tar xf /opt/*.tar.xz && sudo rm -rf /opt/*.tar.xz
           PKGS="gnome-mines gnome-mahjongg thunderbird shotwell gnome-sudoku rhythmbox remmina aisleriot apport apport-gtk"
     for p in $PKGS
  do
-   echo "Removing $p packages"
+echo "$p" | tee -a ~/Desktop/dropoff.log
    sudo apt remove -y "$p"
  done
 
@@ -171,12 +180,12 @@ echo "
       echo
 
      #Mksound from source file asound.state to commit working audio drivers for Acer Chromebook 14
-     sudo <<< wget https://gist.github.com/jeremy-breidenbach/92fc648ed2590ff9cd3a0ae57ed98e4a#file-asound-#state -o /usr/local/bin/asound.state
-     sudo cp /usr/local/bin/asound.state /var/lib/alsa/asound.state
-     sudo alsa force-reload
-     alsactl init
-     sudo alsactl store --file /var/lib/alsa/asound.state
-     sudo alsa force-reload" >> /usr/local/bin/mksound
+#     sudo <<< wget https://gist.github.com/jeremy-breidenbach/92fc648ed2590ff9cd3a0ae57ed98e4a#file-asound-#state -o /usr/local/bin/asound.state
+#     sudo cp /usr/local/bin/asound.state /var/lib/alsa/asound.state
+#     sudo alsa force-reload
+#     alsactl init
+#     sudo alsactl store --file /var/lib/alsa/asound.state
+#     sudo alsa force-reload" >> /usr/local/bin/mksound
 
      # Make System Swap
 #    echo "MAKE SYSTEM SWAP!"; echo
