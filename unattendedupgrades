@@ -1,8 +1,0 @@
-#!/bin/bash
-
-sudo systemctl disable apt-daily.service
-sudo systemctl disable unattended-upgrades.service
-sudo systemctl disable apt-daily-upgrade.service
-sudo systemctl disable apt-daily-upgrade.timer
-sudo systemctl disable apt-daily.timer
-sudo shutdown -r # Note it will take a couple minutes to reboot
