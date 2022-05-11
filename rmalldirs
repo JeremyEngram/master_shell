@@ -1,0 +1,1 @@
+read -p "Remove All Folders With Name: " folder; find . -name "$folder" -exec rm -rf '{}' +

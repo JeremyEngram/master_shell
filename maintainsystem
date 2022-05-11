@@ -1,0 +1,11 @@
+#!/bin/bash
+
+EXTENSIONS="*.doc *.docx *.html *.odt *.pdf *.xls *.xlsx *.ods *.ppt *.pptx *.txt"
+
+ find ~/ -name '*.mp3' -exec mv -t ~/Music {} +
+ find ~/ -name '*.pdf' -exec mv -t ~/Documents {} +
+ find ~/ -name '*.txt' -exec mv -t ~/Documents {} +
+ find ~/ -name '*.html' -exec mv -t ~/Documents/HTML {} +
+ find ~/ -name '*.odt' -exec mv -t ~/Documents {} +
+ find ~/ -name '*.docx' -exec mv -t ~/Documents {} +
+ find ~/ -name '*.ods' -exec mv -t ~/Documents {} +
