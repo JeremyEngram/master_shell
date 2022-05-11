@@ -1,5 +1,3 @@
 #!/bin/bash
 
-cat -n "FindMe!: "
-read file
-find . -name "$file"
+read -p "findFile: " file; find . -name "$file"
