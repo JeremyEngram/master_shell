@@ -2,4 +2,4 @@
 echo "Profile Python Scripts";
 
 find / -type f -name "*.py"
-find -iname '*.py' -exec cp {} /home/server/backup/Python \;
+find -iname '*.py' -exec cp {} /media/server/backup/Python \;
