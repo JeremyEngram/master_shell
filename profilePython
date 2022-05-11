@@ -1,5 +1,5 @@
 #!/bin/bash
 echo "Profile Python Scripts";
 
-find / -type f -name "*.py"
-find -iname '*.py' -exec cp {} /media/server/backup/Python \; zip -r   /media/server/backup/Python_bak.zip /media/server/backup/Python
+find / -type f -name "*.py"; 
+find -iname '*.py' -exec cp {} /media/server/backup/Python \; zip -r /media/server/backup/Python_bak.zip /media/server/backup/Python
