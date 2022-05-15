@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# wkhtmltopdf in a reusable function or in a while loop (ytdl) & input from file read line by line
+#while read line; do wkhtmltopdf $line /var/www/images/Upload_files/name_of_file.pdf done < /var/www/url/url.txt
+
+# xvfb-run -e /tmp/xvfb-error.log -s'-screen 0 1024x768x24' wkhtmltopdf somefile.html output.pdf
+
+
+#function run
+url2pdf2() {
+	read -p "URL2PDF:> " url
+	wkhtmltopdf $url
+}
+
+
+#while true; do
+#read -p "URL:> " url
+#wkhtmltopdf $url
+#done

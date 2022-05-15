@@ -1,0 +1,11 @@
+
+## shell script to purge urls from Cloudflare ##
+t="10"
+I="/home/vivek/.data/tags.deleted.410" # input file
+url=""
+while IFS= read -r line
+do
+        url="$url $line"
+done <<<"$(tail -${t} ${I})"
+[ "$url" != "" ] && ~/bin/cloudflare.purge.urls.sh "$url"
+

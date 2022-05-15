@@ -1,0 +1,5 @@
+#!/bin/bash
+
+(   set -f; IFS='
+';  wkhtmltopdf $(cat) allurl.pdf
+)   < myurls

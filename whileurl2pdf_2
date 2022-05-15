@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# complex_while_read_line_input_from_file
+
+I="~/myurls" # input file
+url=""
+
+while IFS= read -r line
+do
+   ## take some action on $line
+  url="$url
+  echo "$line"
+done < < (wkhtmltopdf $I)
+
+
+
