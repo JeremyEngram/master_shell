@@ -1,0 +1,1 @@
+sudo mount.cifs //192.168.0.67/test /home/pi/test -o username=myname,password=123

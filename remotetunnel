@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ssh -f -N -L2001:localhost:80 remotehost

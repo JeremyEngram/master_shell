@@ -1,0 +1,15 @@
+
+cat /etc/fstab
+
+#blkid = get drive uuid
+/dev/sda7: LABEL="swap" UUID="86e69347-c788-4b98-a768-66a052b57ead" TYPE="swap" PARTUUID="79a632e4-07"
+
+#lsblk = get appropriate device name from /dev/sda7
+
+UUID=86e69347-c788-4b98-a768-66a052b57ead	/dev/sda7	swap	sw	0	0
+UUID=86e69347-c788-4b98-a768-66a052b57ead	none   swap    sw      0       0
+
+
+
+read -p "UUID=" id
+echo "UUID=$id    none    swap    sw      0   0" >> /etc/fstab
