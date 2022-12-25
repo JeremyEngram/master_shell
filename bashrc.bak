@@ -120,20 +120,14 @@ if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-no
 	}
 fi
 
+
+# LOG ALL COMMANDS TO /VAR/LOG/COMMANDS.LOG VIA RSYSLOG
+whoami="$(whoami)@$(echo $SSH_CONNECTION | awk '{print $1}')"
+export PROMPT_COMMAND='RETRN_VAL=$?;logger -p local6.debug " $(history 1) | [$RETRN_VAL]"'
+
+
+
 ############################################################################################################
 
-#alias add2zip='read -p "add2zip: " add sudo zip -ur $add'
-#alias implement='read -p "implement: " pkg; sudo apt install -y  $pkg | tee -a /var/log/apt/implemented.log'
-alias dropoff='sudo apt remove -y'
-alias blowoff='sudo apt clean && sudo apt purge && sudo apt autoremove'
-alias search='sudo apt-cache search'
-alias show='sudo apt-cache show'
-alias arm='sudo chmod +x'
-alias unet='sudo QT_X11_NO_MITSHM=1 /usr/bin/unetbootin'
-alias url2pdf='wkhtmltopdf'
-alias newshell='gnome-terminal -x'
 
 alias findfile='find . -name'
-
-alias phoneterm='gnome-terminal -x /run/user/1000/gvfs/mtp:host=TCL_A508DL_N79XRWO7XO8P7XBQ'
-
