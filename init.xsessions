@@ -1,0 +1,12 @@
+#!/bin/bash
+
+printf "
+
+	#remote display
+	ssh user@host DISPLAY=:0 some_gui_command
+
+	# although you might assume it get's passed through ssh, it does not and is displayed on the remote machine
+	ssh -X user@host DISPLAY=:0 some_gui_command
+
+	# local display
+	DISPLAY=:0 ssh -X user@host some_gui_command	"

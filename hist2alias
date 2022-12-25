@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#while read line; history
+#prepend alias
+
+
+#while  read -r line; do  echo "PREFIX " $line; done < $file
+
+#awk '{print "alias ='" $0}' file
+
+awk '{print "alias $=' " $line; 
+
+awk '{print $0" ' "}' $line
+
+done

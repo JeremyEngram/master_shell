@@ -1,0 +1,4 @@
+#!/bin/bash
+
+$ export {http,https,ftp}_proxy="http://PROXY_SERVER:PORT"
+$ unset {http,https,ftp}_proxy

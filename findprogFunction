@@ -1,0 +1,12 @@
+
+
+findProg() {
+    echo "FINDPROGRAM - Find command for manually entered user input to find a file or set of files to recursively copy to destination path" 
+
+    read -p "SOURCEPATH: " SOURCEPATH;
+    read -p "FIND FILE OR EXT: " FILE;  
+    read -p "DESTPATH: " DESTPATH;
+
+    find $SOURCEPATH -name $FILE -exec cp --parents {} $DESTPATH \;
+  )
+
