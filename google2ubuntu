@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+    sudo add-apt-repository ppa: benoitfra / google2ubuntu
+    sudo apt-get update
+    sudo apt-get install google2ubuntu
+

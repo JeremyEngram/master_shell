@@ -1,0 +1,16 @@
+
+lsblk -
+
+
+
+sudo mount /dev/sda1 /media/research/passport -t ntfs-3g -o uid=research,gid=research
+
+
+
+
+
+Adding: 
+
+" /dev/sda1/media/research/passport ntfs defaults,noatime 0 2 "
+
+to /etc/fstab auto-mounts external drive after machine start/reboot.
