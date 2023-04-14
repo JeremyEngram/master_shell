@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Prompt the user for the file path
+read -p "Please enter the path to the file you want to extract email addresses from: " file_path
+
+# Check if the file exists
+if [ ! -f "$file_path" ]; then
+  echo "Error: The file $file_path does not exist."
+  exit 1
+fi
+
+# Extract email addresses from the file
+email_addresses=$(grep -E -o '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b' "$file_path" | sort | uniq -i)
+
+# Check if any email addresses were found
+if [ -z "$email_addresses" ]; then
+  echo "No email addresses were found in the file."
+else
+  # Display the list of email addresses
+  echo "The following email addresses were found in the file:"
+  echo "$email_addresses"
+fi
