@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Set the variables for the backup server connection
+SERVER="192.168.1.82"
+USERNAME="*****"
+PASSWORD="*****"
+
+# Set the directories to be backed up
+WINDOWS_DIR="/mnt/c/Users/YourUsername/Downloads"
+LINUX_DIR="$HOME/Downloads"
+
+# Use rsync to transfer the files to the backup server
+rsync -avz --progress --delete --rsh="sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no -l $USERNAME" "$WINDOWS_DIR" "$SERVER:/media/jeremy/passport/Windows/Downloads"
+rsync -avz --progress --delete --rsh="sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no -l $USERNAME" "$LINUX_DIR" "$SERVER:/media/jeremy/passport/Linux/Downloads"
