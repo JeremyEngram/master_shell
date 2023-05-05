@@ -1,4 +1,5 @@
 #!/bin/bash
+
 BACKUP=/home/$USER/Desktop/MintSystemBackup
 echo "Full System Backup"
 

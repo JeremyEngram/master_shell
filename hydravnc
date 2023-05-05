@@ -1,3 +1,9 @@
 #!/bin/bash
+wordlist=/usr/share/wordlists/rockyou.txt
+iplist=/home/$user/iplist.txt
 
-read -p "VNC IP:> " ip; sudo hydra -s 5900 –P /usr/share/wordlists/rockyou.txt –t $ip vnc
+while true; 
+
+do read -p "VNC IP:> " ip; sudo hydra -s 5900 –P $wordlist –t $ip vnc
+
+done
