@@ -1,5 +1,17 @@
 #!/bin/bash
-echo -n "Device To Zero: "
-read setdev
-sleep 2 | echo "WARNING: THIS WILL ZERO $setdev DEVICE! ...YOU HAVE 2 MINUTES TO CTRL+C BEFORE DEVICE WRITES!'
-sudo dd if=/dev/zero of=/dev/$setdev status=progress
+
+# Function to zero out a specified device
+zero_device() {
+    echo -n "Device To Zero: "
+    read setdev
+
+    # Display warning message
+    echo "WARNING: THIS WILL ZERO $setdev DEVICE! ...YOU HAVE 2 MINUTES TO CTRL+C BEFORE DEVICE WRITES!"
+    sleep 120  # Wait for 2 minutes
+
+    # Run dd to zero the device with progress status
+    sudo dd if=/dev/zero of=/dev/$setdev status=progress
+}
+
+# Call the function
+zero_device

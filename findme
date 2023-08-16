@@ -1,3 +1,0 @@
-#!/bin/bash
-
-read -p "findFile: " file; find . -name "$file"

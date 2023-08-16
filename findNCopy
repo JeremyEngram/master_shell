@@ -6,6 +6,40 @@ find src/dir/ -name '*.txt' -exec mv {} target/dir/ \;
 
 find . -type f -name "*.py"
 find -iname '*.py' -exec cp {} /home/server/backup/Python \;
+#!/bin/bash
+
+# Function to recursively move files with a specific extension
+move_files() {
+    local source_dir="$1"
+    local target_dir="$2"
+    local extension="$3"
+    
+    find "$source_dir" -type f -name "*.$extension" -exec mv {} "$target_dir" \;
+}
+
+# Function to find and copy files with a specific extension to a destination
+copy_files() {
+    local source_dir="$1"
+    local destination_dir="$2"
+    local extension="$3"
+
+    find "$source_dir" -type f -name "*.$extension" -exec cp {} "$destination_dir" \;
+}
+
+# Function to find and remove files with specific extensions
+remove_files() {
+    local source_dir="$1"
+    local extensions=("$@")
+
+    for extension in "${extensions[@]}"; do
+        find "$source_dir" -type f -name "*.$extension" -delete
+    done
+}
+
+# Usage examples
+move_files "src/dir/" "target/dir/" "txt"
+copy_files "." "/home/server/backup/Python" "py"
+remove_files "/tmp" "pdf" "doc"
 
 #find ./ -name '*.py' -exec cp -prv '{}' '/home/server/backup/Python' ';'
 #find dir_name '*.mp3' -exec cp -vuni '{}' "../dest_dir" ";"

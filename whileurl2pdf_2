@@ -1,16 +1,20 @@
 #!/bin/bash
 
-# complex_while_read_line_input_from_file
+# Define the input file path
+input_file="~/myurls"
 
-I="~/myurls" # input file
+# Initialize an empty variable to store URLs
 url=""
 
-while IFS= read -r line
-do
-   ## take some action on $line
-  url="$url
-  echo "$line"
-done < < (wkhtmltopdf $I)
+# Read URLs from the input file and process them
+while IFS= read -r line; do
+    # Take some action on $line (you mentioned using wkhtmltopdf)
+    # Here, we'll just print the line for demonstration purposes
+    echo "$line"
 
+    # Append the current URL to the 'url' variable
+    url="$url $line"
+done < <(wkhtmltopdf "$input_file")
 
-
+# Display the collected URLs
+echo "Collected URLs: $url"

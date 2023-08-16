@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo "exec 1> >(logger -s -t $(basename $0)) 2>&1" | sudo tee -a .bashrc
+
+
+function log2syslog { declare command 
+   command=$(fc -ln -0) logger -p local1.notice 
+   -t bash -i -- $USER : $command
+}
+trap log2syslog DEBUG
+
+
+
+
+
+
