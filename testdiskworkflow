@@ -3,64 +3,107 @@
 # Define variables
 MODULES="https://blackarch.org/forensic.html"
 TESTDISK="/media/jeremy/backup/TESTDISK"
-REGEX=""
 PII="accountNumber custName custID cardHolder card Phone Address SSN creditcard"
 DI="https://www.linuxtopic.com/2021/05/Regular%20Expression%20-%20How%20to%20Remove%20PII%20Data%20from%20File%20%20How%20to%20Masked%20Personal%20Information%20from%20Json%20Logs.html"
-rezipdirs=""
-dirs=""
-filexe="filexe"
-
-# Move files with specified extensions
-move_files() {
-    mkdir "$1"
-    mv "*.$1" "$1"
-}
+REZIPDIRS=""
+DIRS=""
+FILEXE="filexe"
+LOOTEXTENSIONS=("EXE" "JPG" "PNG" "PDF" "TXT" "AVI" "XZ" "7ZIP" "CSV" "DB" "DEB" "DISKIMG" "DOC" "DOCX" "GZ" "ISO" "MP3" "MP4" "RAR" "TAR" "MOV" "WMV" "OGG" "REG")
+LOGFILE="/var/log/omnisint/testdiskforensics.log"
 
 # Clean up empty directories and files
 cleanup_empty() {
     find . -depth -mindepth 1 -type d -empty -exec rmdir {} \; -o -type f -empty -exec rm -f {} \;
 }
 
-# Main loop
-main_loop() {
-    while read -r line; do
-        echo "$line" | grep -E "$REGEX" && continue
-        
-        # Process file extensions
-        ext="${line##*.}"
-        mkdir -p "$ext"
-        mv "$line" "$ext"
+# Process file content and rename based on content
+process_file_content() {
+    local line="$1"
+    local content=$(cat "$line")  # Read file content
+    local new_filename=$(echo "$content" | sha256sum | cut -d ' ' -f 1)  # Calculate SHA-256 hash of content
 
-        # Add extension to rezipdirs
-        rezipdirs="$rezipdirs $ext"
+    ext="${line##*.}"
+    mkdir -p "$ext"
+    mv "$line" "$ext/$new_filename.$ext"
+    
+    # Add extension to rezipdirs
+    REZIPDIRS="$REZIPDIRS $ext"
+}
+
+# Move files to directories based on extensions
+move_files() {
+    local ext="$1"
+    mkdir -p "$ext"
+    mv *."$ext" "$ext"
+}
+
+# Create LOOT directory and move files into it
+create_loot() {
+    mkdir -p "$TESTDISK/LOOT"
+    
+    for ext in "${LOOTEXTENSIONS[@]}"; do
+        move_files "$ext"
     done
+    
+    zip -ur "$TESTDISK/LOOT.zip" "$TESTDISK/LOOT"
+}
+
+# Output excerpt head and tail to screen and log
+output_excerpt() {
+    local file="$1"
+    local excerpt_head=$(head -n 5 "$file")
+    local excerpt_tail=$(tail -n 5 "$file")
+
+    echo "Excerpt Head for $file:"
+    echo "$excerpt_head"
+
+    echo "Excerpt Tail for $file:"
+    echo "$excerpt_tail"
+
+    echo "Excerpt Head for $file:" >> "$LOGFILE"
+    echo "$excerpt_head" >> "$LOGFILE"
+
+    echo "Excerpt Tail for $file:" >> "$LOGFILE"
+    echo "$excerpt_tail" >> "$LOGFILE"
 }
 
 # Entry point
 echo "TESTDISK WORKFLOW"
 
-cd "$TESTDISK"
+cd "$TESTDISK" || exit 1
 
+# Generate a tree report
 tree -L 2 -f "$TESTDISK"
 tree -R -L 2 -f --prune "$TESTDISK" -o "$TESTDISK/tree_report.log"
 
+# Move files to parent directory
 find . -maxdepth 2 -type f -exec mv {} .. \;
 
-sudo find recup* -depth -mindepth 2 -type d -empty -exec rmdir {} \; ls -d && echo "ZERO DIRS LEFT!"
+# Remove empty directories
+sudo find recup* -depth -mindepth 2 -type d -empty -exec rmdir {} \; && echo "ZERO DIRS LEFT!"
+
+# Process files based on content
+main_loop() {
+    while read -r line; do
+        echo "$line" | grep -E "$REGEX" && continue
+
+        process_file_content "$line"
+    done
+}
 
 main_loop
 
 # Move files to directories based on extensions
-move_files "SH"
-move_files "PY"
-# ... add more move_files calls for other extensions
+for ext in SH PY; do
+    move_files "$ext"
+done
 
-# Create LOOT directory and move files into it
-mkdir -p "$TESTDISK/LOOT"
-mv EXE JPG PNG PDF TXT AVI XZ AVI 7ZIP CSV DB DEB DISKIMG DOC DOCX GZ ISO MP3 MP4 RAR TAR MOV WMV OGG REG -t "$TESTDISK/LOOT"
-zip -ur "$TESTDISK/LOOT.zip" "$TESTDISK/LOOT"
+create_loot
 
-cleanup_empty
+# Output excerpt head and tail for each processed file
+while read -r line; do
+    output_excerpt "$line"
+done < <(find . -type f -name "*.*")
 
 # Perform additional actions like zgrep, binwalk, etc.
 zgrep -c "linux" "$TESTDISK/*.gz"
