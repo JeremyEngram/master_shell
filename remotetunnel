@@ -1,3 +1,5 @@
 #!/bin/bash
 
+#The command you've provided establishes an SSH tunnel that forwards traffic from port 2001 on your local machine to port 80 on a remote host through a secure SSH connection. This is often used to access a remote service securely as if it were running on your local machine.
+
 ssh -f -N -L2001:localhost:80 remotehost

@@ -1,116 +1,70 @@
+#!/bin/bash
 
+# Define variables
+MODULES="https://blackarch.org/forensic.html"
+TESTDISK="/media/jeremy/backup/TESTDISK"
+REGEX=""
+PII="accountNumber custName custID cardHolder card Phone Address SSN creditcard"
+DI="https://www.linuxtopic.com/2021/05/Regular%20Expression%20-%20How%20to%20Remove%20PII%20Data%20from%20File%20%20How%20to%20Masked%20Personal%20Information%20from%20Json%20Logs.html"
+rezipdirs=""
+dirs=""
+filexe="filexe"
 
+# Move files with specified extensions
+move_files() {
+    mkdir "$1"
+    mv "*.$1" "$1"
+}
+
+# Clean up empty directories and files
+cleanup_empty() {
+    find . -depth -mindepth 1 -type d -empty -exec rmdir {} \; -o -type f -empty -exec rm -f {} \;
+}
+
+# Main loop
+main_loop() {
+    while read -r line; do
+        echo "$line" | grep -E "$REGEX" && continue
+        
+        # Process file extensions
+        ext="${line##*.}"
+        mkdir -p "$ext"
+        mv "$line" "$ext"
+
+        # Add extension to rezipdirs
+        rezipdirs="$rezipdirs $ext"
+    done
+}
+
+# Entry point
 echo "TESTDISK WORKFLOW"
 
+cd "$TESTDISK"
 
-
-    MODULES=https://blackarch.org/forensic.html
-	TESTDISK=/media/jeremy/backup/TESTDISK
-    REGEX=
-    PII="accountNumber", "custName", "custID", "cardHolder", "card", "Phone", "Address", "SSN", "creditcard"
-    DI=https://www.linuxtopic.com/2021/05/Regular%20Expression%20-%20How%20to%20Remove%20PII%20Data%20from%20File%20%20How%20to%20Masked%20Personal%20Information%20from%20Json%20Logs.html
-
-
-cd $TESTDISK
-
-
-tree -L 2 -f $TESTDISK
-
-tree -R -L 2 -f --prune $TESTDISK -o $TESTDISK/tree_report.log
-
-
+tree -L 2 -f "$TESTDISK"
+tree -R -L 2 -f --prune "$TESTDISK" -o "$TESTDISK/tree_report.log"
 
 find . -maxdepth 2 -type f -exec mv {} .. \;
 
+sudo find recup* -depth -mindepth 2 -type d -empty -exec rmdir {} \; ls -d && echo "ZERO DIRS LEFT!"
 
+main_loop
 
+# Move files to directories based on extensions
+move_files "SH"
+move_files "PY"
+# ... add more move_files calls for other extensions
 
-sudo find recup* -depth -mindepth 2 -type d -empty -exec rmdir {} \; ls -d && echo "ZERO DIRS LEFT!" 
+# Create LOOT directory and move files into it
+mkdir -p "$TESTDISK/LOOT"
+mv EXE JPG PNG PDF TXT AVI XZ AVI 7ZIP CSV DB DEB DISKIMG DOC DOCX GZ ISO MP3 MP4 RAR TAR MOV WMV OGG REG -t "$TESTDISK/LOOT"
+zip -ur "$TESTDISK/LOOT.zip" "$TESTDISK/LOOT"
 
+cleanup_empty
 
+# Perform additional actions like zgrep, binwalk, etc.
+zgrep -c "linux" "$TESTDISK/*.gz"
+# ... add more commands for other tasks
 
-while 
-
-  find . -type f | perl -ne 'print $1 if m/\.([^.\/]+)$/' | sort -u | tee -a dirs;
-  xargs -I {} mkdir -p "{}" < dirs;
-  sed -e 's/^/*./' dirs > filexe;
-
-do 
-
-rm -rf *.c *.h *.lnk *.elf *.cab *.a *.dll *.flp *.ini *.jar *.java *.mid *.torrent *.sxw *.wim *.svg *.rb *.html *.icc *.webp 
-
-cat dirs;                                       #mv $(cat filexe) $(cat dirs);
-
-mkdir $(cat dirs); mv *.$(cat dirs) $(cat dirs)
-#mkdir $(cat dirs); mv *.$(cat dirs) $(cat dirs)
-#mkdir $(cat dirs)
-
-echo "MKDIR FILE EXTENSION DIRS AND MVING...";
-
-mkdir SH; mv *.sh SH
-mkdir PY; mv *.py PY
-mkdir JPG; mv *.jpg JPG
-mkdir EXE; mv *.exe EXE
-mkdir WAV; mv *.wav WAV
-mkdir XML; mv *.xml XML
-mkdir ZIP; mv *.zip ZIP
-mkdir XZ; mv *.xz XZ
-mkdir PDF; mv *.pdf PDF
-mkdir TXT; mv *.txt TXT
-mkdir AVI; mv *.avi AVI
-mkdir PNG; mv *.png PNG
-mkdir 7ZIP; mv *.7z 7ZIP
-mkdir CSV; mv *.csv CSV
-mkdir DB; mv *.db DB
-mkdir DEB; mv *.deb DEB
-mkdir DISKIMG; mv *.diskimage DISKIMG
-mkdir DOC; mv *.doc DOC
-mkdir DOCX; mv *.docx DOCX
-mkdir GZ; mv *.gz GZ
-mkdir ISO; mv *.iso ISO
-mkdir MP3; mv *.mp3 MP3
-mkdir MP4; mv *.mp4 MP4
-mkdir PNG; mv *.png PNG
-mkdir RAR; mv *.rar RAR
-mkdir TAR; mv *.tar TAR
-mkdir MOV; mv *.mov MOV
-mkdir WMV; mv *.wmv WMV
-mkdir REG; mv *.reg REG
-mkdir OGG; mv *.ogg OGG
-mkdir BZ2; mv *.bz2 BZ2
-
-mkdir $TESTDISK/LOOT; mv EXE JPG PNG PDF TXT AVI XZ AVI 7ZIP CSV DB DEB DISKIMG DOC DOCX GZ ISO MP3 MP4 RAR TAR MOV WMV OGG REG -t $TESTDISK/LOOT; zip -r $TESTDISK/LOOT.zip $TESTDISK/LOOT 
-
-
-done
-
-find ./ -type d -empty
-
-find $TESTDISK/* -size 0 |  xargs rm && find . -type f -empty -exec rm -f {} \;
-WARNING: sudo find $TESTDISK/* -depth -mindepth 2 -type d -empty -exec rmdir {} \;
-
-
-
-
-zip -ur $TESTDISK/LOOT.zip $rezipdirs
-
-
-
-cat $TESTDISK/*.txt | tee -a compiled.txt
-
-
-zgrep -c "linux" $TESTDISK/*.gz
-
-
-formost 
-
-zgrep -c "FAILED" *.gz
-
-binwalk [.exe]
-
-
-
-
-#truncate empty dirs and files
-find . -type d -empty -print -delete -o -type f -empty -print -delete
-find . -depth -mindepth 1 -type d -empty -exec rmdir {} \;'
+# Truncate empty dirs and files
+cleanup_empty

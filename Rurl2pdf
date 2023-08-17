@@ -1,6 +1,12 @@
 #!/bin/bash
 
 while true; do
-read -p "URL:> " url
-wkhtmltopdf $url
+    read -p "URL:> " url  # Prompt the user to enter a URL
+    title=$(curl -s "$url" | grep -oP '<title>\K[^<]+')  # Extract the title from the URL using curl and grep
+    wkhtmltopdf "$url" "$title.pdf"  # Convert the URL to a PDF using wkhtmltopdf and save it with the extracted title
+
+    read -p "Again? (y/n):> " again  # Ask the user if they want to continue
+    if [ "$again" == "n" ]; then    # Check if the user's response is "n" (no)
+        break  # Exit the loop if the user wants to stop
+    fi
 done
