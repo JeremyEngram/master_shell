@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Function to recursively move files with a specific extension from source to target directory
+# Function to recursively move files with a specific extension
 move_files() {
     local source_dir="$1"
     local target_dir="$2"
@@ -10,7 +10,7 @@ move_files() {
     find "$source_dir" -type f -name "*.$extension" -exec mv {} "$target_dir" \;
 }
 
-# Function to recursively copy files with a specific extension from source to destination directory
+# Function to recursively copy files with a specific extension
 copy_files() {
     local source_dir="$1"
     local destination_dir="$2"
@@ -20,7 +20,7 @@ copy_files() {
     find "$source_dir" -type f -name "*.$extension" -exec cp {} "$destination_dir" \;
 }
 
-# Function to find and remove files with specific extensions from a source directory
+# Function to find and remove files with specific extensions
 remove_files() {
     local source_dir="$1"
     shift # Shifting arguments to skip the first one (source_dir)
@@ -32,35 +32,34 @@ remove_files() {
     done
 }
 
-# Usage examples
-move_files "src/dir/" "target/dir/" "txt"
-copy_files "." "/home/server/backup/Python" "py"
-remove_files "/tmp" "pdf" "doc"
+# User Interaction for choosing the operation
+echo "Select the operation:"
+echo "1. Move Files"
+echo "2. Copy Files"
+echo "3. Remove Files"
+read -p "Enter choice (1/2/3): " choice
 
-# Alternative method for copying .py files to a backup directory
-find ./ -name '*.py' -exec cp -prv '{}' '/home/server/backup/Python' ';'
+case $choice in
+    1)
+        read -p "Enter source directory: " src_dir
+        read -p "Enter target directory: " tgt_dir
+        read -p "Enter file extension to move: " ext
+        move_files "$src_dir" "$tgt_dir" "$ext"
+        ;;
+    2)
+        read -p "Enter source directory: " src_dir
+        read -p "Enter destination directory: " dest_dir
+        read -p "Enter file extension to copy: " ext
+        copy_files "$src_dir" "$dest_dir" "$ext"
+        ;;
+    3)
+        read -p "Enter source directory: " src_dir
+        read -p "Enter file extensions to remove (separated by space): " -a exts
+        remove_files "$src_dir" "${exts[@]}"
+        ;;
+    *)
+        echo "Invalid choice"
+        ;;
+esac
 
-# Method to copy mp3 files with verbose, non-overwriting, and case-insensitive options
-find dir_name -name '*.mp3' -exec cp -vuni '{}' "../dest_dir" ";"
-
-# Copying files with their directory structure
-find SOURCEPATH -name filename*.txt -exec cp --parents {} DESTPATH \;
-
-# Another method to copy files with their directory structure using a while loop
-find [SOURCEPATH] -type f -name '[PATTERN]' | 
-    while read P; do cp --parents "$P" [DEST]; done
-
-# Finding and listing config files with .conf extension in /etc directory
-find /etc -type f -name "*.conf"
-
-# Finding files with either .sh or .txt extension
-find . -type f \( -name "*.sh" -o -name "*.txt" \)
-
-# Removing files with either .pdf or .doc extension in /tmp directory using a for loop
-for f in $(find /tmp -name '*.pdf' -or -name '*.doc'); do rm $f; done
-
-# Copying files with either .pdf or .doc extension from /tmp to ~/misc directory using a for loop
-for f in $(find /tmp -name '*.pdf' -or -name '*.doc'); do cp $f ~/misc; done
-
-# Removing files with either .pdf or .doc extension using xargs
-find /tmp -name '*.pdf' -or -name '*.doc' | xargs rm
+exit 0
