@@ -1,4 +1,6 @@
+
 #EXTRACTSCRAPE - Function Scrape Script From File
+
 #!/usr/bin/env bash
   if [ -f "$1" ]; then
     grep -o '[[:alnum:]+\.\_\-]*@[[:alnum:]+\.\_\-]*' "$1" | sort | uniq -i
@@ -6,3 +8,34 @@
     echo "Expected a file at $1, but it doesn't exist." >&2
     exit 1
   fi
+
+
+
+
+
+#!/usr/bin/env bash
+
+# Function to extract and scrape email addresses from a file
+extract_and_scrape_emails() {
+    local file_path="$1"
+
+    # Check if the file exists
+    if [ -f "$file_path" ]; then
+        # Use grep to extract email addresses, then sort and remove duplicates
+        grep -o '[[:alnum:]+\.\_\-]*@[[:alnum:]+\.\_\-]*' "$file_path" | sort | uniq -i
+    else
+        # Print an error message to stderr if the file does not exist
+        echo "Expected a file at $file_path, but it doesn't exist." >&2
+        return 1
+    fi
+}
+
+# Main script execution
+# Checking if the script is called with a filename
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <filename>" >&2
+    exit 1
+fi
+
+# Call the function with the provided file name
+extract_and_scrape_emails "$1"
