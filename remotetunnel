@@ -1,33 +1,23 @@
-
 #!/bin/bash
 
-#The command you've provided establishes an SSH tunnel that forwards traffic from port 2001 on your local machine to port 80 on a remote host through a secure SSH connection. This is often used to access a remote service securely as if it were running on your local machine.
+# This script establishes an SSH tunnel that forwards traffic from port 2001 on your local machine 
+# to port 80 on a remote host through a secure SSH connection. This is often used to access a remote 
+# service securely as if it were running on your local machine.
 
-ssh -f -N -L2001:localhost:80 remotehost
+# The command structure is as follows:
+# ssh -f -N -L<local_port>:<remote_host>:<remote_port> <remote_host>
 
+# Breakdown of the ssh command:
+# -f : Run in the background after authentication is complete.
+# -N : Do not execute any remote commands, only set up port forwarding.
+# -L2001:localhost:80 : Forward connections from local port 2001 to remote port 80 on the remote host.
 
+# Define variables for better readability and maintainability
+LOCAL_PORT=2001
+REMOTE_HOST="remotehost"
+REMOTE_PORT=80
 
+# Establish the SSH tunnel
+ssh -f -N -L${LOCAL_PORT}:localhost:${REMOTE_PORT} ${REMOTE_HOST}
 
-
-
-
-The script you've provided is a Bash script that establishes an SSH tunnel using the ssh command. Let's break down each part of the script:
-
-#!/bin/bash: This is called a shebang line. It indicates that the script should be interpreted and executed using the Bash shell.
-
-ssh: This is the command to initiate an SSH connection.
-
--f: This flag tells SSH to run in the background after authentication is complete.
-
--N: This flag tells SSH that no remote commands should be executed, only the tunnel should be established.
-
--L2001:localhost:80: This is the port forwarding configuration. It tells SSH to forward connections from port 2001 on your local machine to port 80 on the remote host. Here's what each part means:
-
-2001: The local port on your machine that you want to use for the tunnel.
-localhost: The destination on the remote server. In this case, it refers to the remote server itself.
-80: The port on the remote server that you want to forward to.
-remotehost: This is the hostname or IP address of the remote server you want to establish the SSH tunnel to.
-
-Overall, this script is used to create a secure tunnel between your local machine and a remote server, allowing you to access a service running on the remote server (listening on port 80) through your local machine's port 2001.
-
-To use this script, save it to a file (e.g., ssh_tunnel.sh), make the file executable (chmod +x ssh_tunnel.sh), and then run it (./ssh_tunnel.sh). The tunnel will be established, and you can access the remote service by connecting to http://localhost:2001 i
+# After running this script, you can access the remote service by connecting to http://localhost:${LOCAL_PORT}
