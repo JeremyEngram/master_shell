@@ -1,12 +1,17 @@
 #!/bin/bash
 
+user=
+host=
+
 printf "
 
 	#remote display
-	ssh user@host DISPLAY=:0 some_gui_command
+	ssh $user@$host DISPLAY=:0 gui
+
+	ssh jeremy@raspberrypi DISPLAY=:0 synaptic
 
 	# although you might assume it get's passed through ssh, it does not and is displayed on the remote machine
-	ssh -X user@host DISPLAY=:0 some_gui_command
+	ssh -X $(whoami)@$host DISPLAY=:0 $gui
 
 	# local display
 	DISPLAY=:0 ssh -X user@host some_gui_command	"
