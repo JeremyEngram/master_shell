@@ -1,12 +1,13 @@
 #!/bin/bash
 
 ROOT=/opt/omniscient
-EXTENSIONS="*.doc *.docx *.html *.odt *.pdf *.xls *.xlsx *.ods *.ppt *.pptx *.txt"
+echo $HOME      # = to /home/jeremy
+EXTENSIONS="*.doc *.docx *.html *.odt *.pdf *.xls *.xlsx *.ods *.ppt *.pptx *.txt  *.sh  *.bash  *.py"
 
- find ~/ -name '*.mp3' -exec mv -t $ROOT/Music {} +
- find ~/ -name '*.pdf' -exec mv -t $ROOT/Documents {} +
- find ~/ -name '*.txt' -exec mv -t $ROOT/Documents {} +
- find ~/ -name '*.html' -exec mv -t $ROOT/web {} +
- find ~/ -name '*.odt' -exec mv -t $ROOT/Documents {} +
- find ~/ -name '*.docx' -exec mv -t $ROOT/Documents {} +
- find ~/ -name '*.ods' -exec mv -t $ROOT/Documents {} +
+ find $HOME -name '*.mp3' -exec mv -t $ROOT/Music {} +
+ find $HOME -name '*.pdf' -exec mv -t $ROOT/Documents {} +
+ find $HOME -name '*.txt' -exec mv -t $ROOT/Documents {} +
+ find $HOME -name '*.html' -exec mv -t $ROOT/web {} +
+ find $HOME -name '*.odt' -exec mv -t $ROOT/Documents {} +
+ find $HOME -name '*.docx' -exec mv -t $ROOT/Documents {} +
+ find $HOME -name '*.ods' -exec mv -t $ROOT/Documents {} +
